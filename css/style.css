@@ -11,7 +11,7 @@
 }
 
 :root {
-  --primary: #DE313B;
+  --primary: #F99AAA;
   --secondary: #171717;
   --tertiary: #f0e5dc;
   --white: #FFFFFF;
@@ -56,7 +56,7 @@ header#jsHeader {
   z-index: 1000;
   background: var(--tertiary);
   padding: 12px 0;
-  border-bottom: 2px solid rgba(222, 49, 59, 0.15);
+  border-bottom: 2px solid rgba(249, 154, 170, 0.15);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
@@ -112,9 +112,9 @@ header#jsHeader.scrolled {
 
 #navList ul li a:hover,
 #navList ul li a.active {
-  color: #FFF;
+  color: var(--secondary);
   background-color: var(--primary);
-  box-shadow: 0 4px 14px rgba(222, 49, 59, 0.35);
+  box-shadow: 0 4px 14px rgba(249, 154, 170, 0.35);
 }
 
 .headerActions {
@@ -155,13 +155,13 @@ header#jsHeader.scrolled {
   font-family: 'Monstro', sans-serif;
   font-size: 22px;
   text-transform: uppercase;
-  color: #FFF;
+  color: var(--secondary);
   text-decoration: none;
   background-color: var(--primary);
   border: 3px solid #FFF;
   padding: 12px 36px;
   border-radius: 50px;
-  box-shadow: 0 6px 20px rgba(222, 49, 59, 0.4);
+  box-shadow: 0 6px 20px rgba(249, 154, 170, 0.4);
   position: relative;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -182,8 +182,8 @@ header#jsHeader.scrolled {
 
 .btnDuckbill:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(222, 49, 59, 0.55);
-  background-color: #e6232e;
+  box-shadow: 0 10px 28px rgba(249, 154, 170, 0.55);
+  background-color: #E88596;
 }
 
 .btnDuckbill:hover::before {
@@ -299,7 +299,7 @@ header#jsHeader.scrolled {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #FFF;
-  background: rgba(222, 49, 59, 0.35);
+  background: rgba(249, 154, 170, 0.35);
   border: 1px solid var(--primary);
   padding: 6px 16px;
   border-radius: 30px;
@@ -521,7 +521,7 @@ section {
   gap: 16px;
   margin-top: 35px;
   padding-top: 25px;
-  border-top: 2px dashed rgba(222, 49, 59, 0.25);
+  border-top: 2px dashed rgba(249, 154, 170, 0.25);
 }
 
 .statCard {
@@ -574,13 +574,13 @@ section {
   transform: translateY(-8px);
   border-color: var(--primary);
   background: #FFF;
-  box-shadow: 0 16px 36px rgba(222, 49, 59, 0.15);
+  box-shadow: 0 16px 36px rgba(249, 154, 170, 0.15);
 }
 
 .pilarNumber {
   font-family: 'Monstro', sans-serif;
   font-size: 48px;
-  color: rgba(222, 49, 59, 0.3);
+  color: rgba(249, 154, 170, 0.3);
   line-height: 1;
   margin-bottom: 15px;
 }
@@ -633,7 +633,7 @@ section {
   font-weight: 700;
   padding: 4px 12px;
   border-radius: 12px;
-  background: rgba(222, 49, 59, 0.12);
+  background: rgba(249, 154, 170, 0.12);
   color: var(--primary);
   text-transform: uppercase;
 }
@@ -667,8 +667,8 @@ section {
 .filterBtn.active {
   background: var(--primary);
   border-color: var(--primary);
-  color: #FFF;
-  box-shadow: 0 4px 14px rgba(222, 49, 59, 0.35);
+  color: var(--secondary);
+  box-shadow: 0 4px 14px rgba(249, 154, 170, 0.35);
 }
 
 .projetosGrid {
@@ -691,7 +691,7 @@ section {
 .projectCard:hover {
   transform: translateY(-6px) scale(1.02);
   border-color: var(--primary);
-  box-shadow: 0 16px 36px rgba(222, 49, 59, 0.18);
+  box-shadow: 0 16px 36px rgba(249, 154, 170, 0.18);
 }
 
 .cardThumb {
@@ -790,14 +790,14 @@ section {
 .depoimentoCard:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(222, 49, 59, 0.2);
+  box-shadow: 0 12px 30px rgba(249, 154, 170, 0.2);
 }
 
 .quoteIcon {
   width: 44px;
   height: 44px;
   margin-bottom: 20px;
-  filter: brightness(0) saturate(100%) invert(32%) sepia(85%) saturate(2284%) hue-rotate(338deg) brightness(91%) contrast(92%);
+  filter: brightness(0) saturate(100%) invert(75%) sepia(21%) saturate(1142%) hue-rotate(307deg) brightness(101%) contrast(96%);
 }
 
 .quoteText {
@@ -845,7 +845,7 @@ section {
 /* SECTION CTA CONTATO */
 #sectionContato {
   background-color: var(--primary);
-  color: #FFF;
+  color: var(--secondary);
   text-align: center;
   padding: 90px 0;
 }
@@ -861,13 +861,15 @@ section {
   line-height: 0.95;
   text-transform: uppercase;
   margin-bottom: 20px;
+  color: var(--secondary);
 }
 
 .ctaText {
   font-size: 20px;
   line-height: 1.6;
-  color: var(--tertiary);
+  color: #2b2b2b;
   margin-bottom: 40px;
+  font-weight: 600;
 }
 
 /* FOOTER */

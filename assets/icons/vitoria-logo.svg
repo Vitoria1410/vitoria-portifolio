@@ -5,7 +5,7 @@
     </filter>
   </defs>
   <!-- Background Badge -->
-  <rect x="2" y="5" width="55" height="58" rx="14" fill="#DE313B"/>
+  <rect x="2" y="5" width="55" height="58" rx="14" fill="#F99AAA"/>
   <!-- Monogram V -->
   <path d="M15 18 L29 50 L43 18" stroke="#FFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   <!-- Sparkle dot -->
@@ -13,7 +13,7 @@
   <!-- Text VITORIA -->
   <text x="68" y="34" font-family="'Monstro', 'Arial Black', sans-serif" font-weight="900" font-size="28" fill="#171717" letter-spacing="1">VITORIA</text>
   <!-- Text BARRETO SOUSA -->
-  <text x="69" y="52" font-family="'Lato', sans-serif" font-weight="900" font-size="12" fill="#DE313B" letter-spacing="2.5">BARRETO SOUSA</text>
+  <text x="69" y="52" font-family="'Lato', sans-serif" font-weight="900" font-size="12" fill="#F99AAA" letter-spacing="2.5">BARRETO SOUSA</text>
   <!-- Subtext FECAP IA -->
   <text x="69" y="63" font-family="'Lato', sans-serif" font-weight="700" font-size="9" fill="#777" letter-spacing="1.5">COLÉGIO FECAP • IA</text>
 </svg>

@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
   <defs>
     <linearGradient id="cardGradINTELIGÊNCIA ARTIFICIAL" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#880E4F"/>
+      <stop offset="0%" stop-color="#D86B80"/>
       <stop offset="100%" stop-color="#171717"/>
     </linearGradient>
   </defs>
   <rect width="600" height="400" rx="20" fill="url(#cardGradINTELIGÊNCIA ARTIFICIAL)"/>
   <!-- Decorative grid / wave lines -->
-  <circle cx="500" cy="80" r="140" fill="none" stroke="#E91E63" stroke-width="2" stroke-dasharray="8 8" opacity="0.3"/>
+  <circle cx="500" cy="80" r="140" fill="none" stroke="#F99AAA" stroke-width="2" stroke-dasharray="8 8" opacity="0.3"/>
   <circle cx="100" cy="350" r="100" fill="none" stroke="#f0e5dc" stroke-width="2" stroke-dasharray="6 6" opacity="0.25"/>
   <!-- Tag Badge -->
-  <rect x="40" y="40" width="160" height="36" rx="18" fill="#E91E63"/>
+  <rect x="40" y="40" width="160" height="36" rx="18" fill="#F99AAA"/>
   <text x="120" y="63" font-family="'Lato', sans-serif" font-weight="900" font-size="13" fill="#FFF" text-anchor="middle" letter-spacing="1.5">INTELIGÊNCIA ARTIFICIAL</text>
   <!-- Main Title -->
   <text x="40" y="240" font-family="'Monstro', sans-serif" font-weight="900" font-size="36" fill="#FFF" letter-spacing="1">TUTOR FECAP IA</text>
@@ -18,6 +18,6 @@
   <text x="40" y="280" font-family="'Lato', sans-serif" font-weight="700" font-size="18" fill="#f0e5dc" opacity="0.9">Agente de Estudos em NLP</text>
   <text x="40" y="315" font-family="'Lato', sans-serif" font-size="14" fill="#DDD" opacity="0.75">COLÉGIO FECAP • VITORIA BARRETO SOUSA</text>
   <!-- Accent corner element -->
-  <circle cx="530" cy="330" r="40" fill="#E91E63" stroke="#FFF" stroke-width="4"/>
+  <circle cx="530" cy="330" r="40" fill="#F99AAA" stroke="#FFF" stroke-width="4"/>
   <text x="530" y="340" font-family="'Monstro', sans-serif" font-weight="900" font-size="28" fill="#FFF" text-anchor="middle">★</text>
 </svg>

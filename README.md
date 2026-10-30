@@ -8,7 +8,7 @@ Construído com fidelidade absoluta ao **Duckbill Design System**.
 
 - **Tipografia:** Fonte display `Monstro` (woff2 local) e fonte de leitura `Lato` (Google Fonts).
 - **Cores Oficiais:**
-  - Vermelho Primário: `#DE313B`
+  - Vermelho Primário: `#F99AAA`
   - Grafite Secundário: `#171717`
   - Bege Acolhedor / Fundo: `#f0e5dc`
 - **Padrões de Interface:**

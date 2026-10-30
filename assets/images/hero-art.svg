@@ -8,16 +8,16 @@
   </defs>
   <rect width="1000" height="860" fill="url(#gradArt)" rx="30"/>
   <!-- Organic Artistic Brush Splashes -->
-  <path d="M200 400 C150 250 350 180 500 220 C650 260 820 180 820 380 C820 580 680 720 480 680 C320 650 240 520 200 400 Z" fill="#DE313B" opacity="0.9"/>
+  <path d="M200 400 C150 250 350 180 500 220 C650 260 820 180 820 380 C820 580 680 720 480 680 C320 650 240 520 200 400 Z" fill="#F99AAA" opacity="0.9"/>
   <!-- Drawing Tablet & Stylus Elements -->
   <rect x="340" y="270" width="320" height="240" rx="20" fill="#171717" stroke="#FFF" stroke-width="6"/>
   <rect x="365" y="295" width="270" height="190" rx="10" fill="#f0e5dc"/>
   <!-- Sketch on tablet -->
-  <path d="M400 390 C420 330 460 330 480 390 C500 450 540 450 560 390" fill="none" stroke="#DE313B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M400 390 C420 330 460 330 480 390 C500 450 540 450 560 390" fill="none" stroke="#F99AAA" stroke-width="6" stroke-linecap="round"/>
   <circle cx="500" cy="350" r="28" fill="#171717"/>
   <!-- Stylus Pen -->
   <polygon points="690,210 710,230 590,410 565,415 570,390" fill="#f0e5dc" stroke="#171717" stroke-width="4"/>
-  <polygon points="565,415 570,390 550,425" fill="#DE313B"/>
+  <polygon points="565,415 570,390 550,425" fill="#F99AAA"/>
   <text x="500" y="620" font-family="'Monstro', sans-serif" font-size="36" font-weight="900" fill="#171717" text-anchor="middle" letter-spacing="2">ILUSTRAÇÃO &amp; CONCEPT ART</text>
   <text x="500" y="655" font-family="'Lato', sans-serif" font-size="16" fill="#FFF" text-anchor="middle" font-weight="700">DESENHO TRADICIONAL • DIGITAL • CHARACTER DESIGN</text>
 </svg>
