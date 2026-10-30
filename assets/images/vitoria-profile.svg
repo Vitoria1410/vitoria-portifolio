@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DE313B"/>
+      <stop offset="100%" stop-color="#171717"/>
+    </linearGradient>
+  </defs>
+  <circle cx="250" cy="250" r="235" fill="#f0e5dc" stroke="#DE313B" stroke-width="12"/>
+  <circle cx="250" cy="250" r="215" fill="url(#avatarGrad)"/>
+  <!-- Stylized Portrait Silhouette of Vitoria -->
+  <circle cx="250" cy="180" r="75" fill="#f0e5dc"/>
+  <!-- Hair style -->
+  <path d="M165 190 C160 110 210 85 250 85 C290 85 340 110 335 190 C330 240 310 260 300 240 C280 200 220 200 200 240 C190 260 170 240 165 190 Z" fill="#171717"/>
+  <!-- Torso / Shoulders with Athletic Collar & Pencils -->
+  <path d="M130 420 C130 330 190 285 250 285 C310 285 370 330 370 420 Z" fill="#f0e5dc"/>
+  <path d="M220 285 L250 330 L280 285 Z" fill="#DE313B"/>
+  <!-- Floating Pin / Badge FECAP -->
+  <circle cx="340" cy="350" r="32" fill="#DE313B" stroke="#FFF" stroke-width="4"/>
+  <text x="340" y="356" font-family="'Lato', sans-serif" font-weight="900" font-size="14" fill="#FFF" text-anchor="middle">FECAP</text>
+</svg>

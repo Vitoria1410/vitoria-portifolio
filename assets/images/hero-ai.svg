@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 860" width="1000" height="860">
+  <defs>
+    <radialGradient id="gradAi" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#DE313B" stop-opacity="0.95"/>
+      <stop offset="65%" stop-color="#B71C1C" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#171717" stop-opacity="1"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1000" height="860" fill="url(#gradAi)" rx="30"/>
+  <!-- Circular Neural Network Pattern -->
+  <circle cx="500" cy="430" r="320" fill="none" stroke="#f0e5dc" stroke-width="2" stroke-dasharray="8 8" opacity="0.3"/>
+  <circle cx="500" cy="430" r="230" fill="none" stroke="#FFF" stroke-width="3" stroke-dasharray="12 12" opacity="0.4"/>
+  <circle cx="500" cy="430" r="140" fill="none" stroke="#DE313B" stroke-width="4" opacity="0.6"/>
+  <!-- Tech / AI Graph Nodes -->
+  <g filter="url(#glow)">
+    <circle cx="340" cy="300" r="24" fill="#f0e5dc"/>
+    <circle cx="660" cy="300" r="24" fill="#f0e5dc"/>
+    <circle cx="280" cy="520" r="20" fill="#FFF"/>
+    <circle cx="720" cy="520" r="20" fill="#FFF"/>
+    <circle cx="500" cy="220" r="30" fill="#FFF"/>
+    <circle cx="500" cy="620" r="28" fill="#f0e5dc"/>
+    <!-- Connecting Lines -->
+    <path d="M500 220 L340 300 L280 520 L500 430 L720 520 L660 300 Z" fill="none" stroke="#FFF" stroke-width="4" opacity="0.75"/>
+    <path d="M500 430 L500 620 L280 520" fill="none" stroke="#f0e5dc" stroke-width="3" opacity="0.6"/>
+    <path d="M500 430 L500 620 L720 520" fill="none" stroke="#f0e5dc" stroke-width="3" opacity="0.6"/>
+    <!-- Center AI Core Badge -->
+    <circle cx="500" cy="430" r="70" fill="#171717" stroke="#FFF" stroke-width="6"/>
+    <text x="500" y="445" font-family="'Monstro', sans-serif" font-weight="900" font-size="44" fill="#DE313B" text-anchor="middle">IA</text>
+  </g>
+  <!-- Decorative Floating Binary Code / Text -->
+  <text x="500" y="730" font-family="'Lato', monospace" font-size="22" font-weight="700" fill="#f0e5dc" text-anchor="middle" letter-spacing="4">COLÉGIO FECAP • INTELIGÊNCIA ARTIFICIAL</text>
+  <text x="500" y="765" font-family="'Lato', sans-serif" font-size="16" fill="#FFF" text-anchor="middle" opacity="0.75">REDES NEURAIS • MACHINE LEARNING • PYTHON</text>
+</svg>

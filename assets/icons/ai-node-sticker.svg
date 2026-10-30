@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect x="8" y="8" width="84" height="84" rx="24" fill="#DE313B" stroke="#171717" stroke-width="5"/>
+  <!-- Neural Network Nodes -->
+  <circle cx="32" cy="32" r="8" fill="#FFF"/>
+  <circle cx="32" cy="68" r="8" fill="#FFF"/>
+  <circle cx="68" cy="32" r="8" fill="#f0e5dc"/>
+  <circle cx="68" cy="68" r="8" fill="#f0e5dc"/>
+  <circle cx="50" cy="50" r="10" fill="#171717" stroke="#FFF" stroke-width="3"/>
+  <line x1="32" y1="32" x2="50" y2="50" stroke="#FFF" stroke-width="4"/>
+  <line x1="32" y1="68" x2="50" y2="50" stroke="#FFF" stroke-width="4"/>
+  <line x1="50" y1="50" x2="68" y2="32" stroke="#FFF" stroke-width="4"/>
+  <line x1="50" y1="50" x2="68" y2="68" stroke="#FFF" stroke-width="4"/>
+</svg>

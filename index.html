@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Vitoria Barreto Sousa — Estudante de IA | Colégio FECAP</title>
+  <meta name="description" content="Site pessoal de Vitoria Barreto Sousa: Estudante do Colégio FECAP no curso técnico de Inteligência Artificial, atleta de vôlei e desenhista/ilustradora.">
+  
+  <link rel="icon" href="assets/icons/volleyball-sticker.svg">
+  
+  <!-- Google Fonts Lato -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  
+  <!-- CSS Oficial Duckbill Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR HEADER REUTILIZADA DO DESIGN SYSTEM -->
+  <header id="jsHeader">
+    <div class="container">
+      <div class="navBar">
+        <div class="logo">
+          <a href="#sectionBanner" title="Vitoria Barreto Sousa">
+            <img src="assets/icons/vitoria-logo.svg" alt="Vitoria Barreto Sousa - Colégio FECAP IA">
+          </a>
+        </div>
+
+        <nav id="navList">
+          <ul>
+            <li><a href="#sectionSobre">Sobre Mim</a></li>
+            <li><a href="#sectionPilares">Pilares</a></li>
+            <li><a href="#sectionProjetos">Projetos &amp; Criações</a></li>
+            <li><a href="#sectionDepoimentos">Depoimentos</a></li>
+            <li><a href="#sectionContato">Contato</a></li>
+          </ul>
+        </nav>
+
+        <div class="headerActions">
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="socialIconBtn" title="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#sectionContato" class="btnDuckbill" style="font-size: 16px; padding: 10px 24px; border-width: 2px;">FALAR COMIGO</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION COM CARROSSEL VISUAL COMPLETO -->
+  <section id="sectionBanner">
+    <img src="assets/icons/pattern-banner-bg-svg.svg" class="bannerWatermark" alt="Watermark Pattern">
+
+    <div class="container heroCarouselWrapper">
+      
+      <!-- Slide 1: IA & FECAP -->
+      <div class="heroSlide active" id="slide0">
+        <div class="heroGrid">
+          <div class="heroTextSide">
+            <div class="heroCategoryPill">Colégio FECAP • Ensino Técnico Integrado</div>
+            <div class="heroSmallTitle">Estudante de Inteligência Artificial</div>
+            <h1 class="heroBigTitle">Vitoria <span>Barreto</span></h1>
+            <p class="heroDesc">
+              Explorando as fronteiras da Inteligência Artificial no Colégio FECAP. Unindo lógica algorítmica, redes neurais, programação em Python, paixão pelo vôlei e arte visual autoral.
+            </p>
+            <div class="heroButtons">
+              <a href="#sectionSobre" class="btnDuckbill">CONHECER HISTÓRIA</a>
+              <a href="#sectionProjetos" class="btnDuckbillSecondary" style="color: #FFF; border-color: #FFF;">VER PROJETOS</a>
+            </div>
+          </div>
+          <div class="heroVisualSide">
+            <img src="assets/icons/ai-node-sticker.svg" class="floatingSticker stickerTopRight" alt="AI Sticker">
+            <img src="assets/icons/fecap-sticker.svg" class="floatingSticker stickerBottomLeft" alt="FECAP Sticker">
+            <img src="assets/images/hero-ai.svg" class="heroArtwork" alt="Inteligência Artificial FECAP">
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: VÔLEI -->
+      <div class="heroSlide" id="slide1">
+        <div class="heroGrid">
+          <div class="heroTextSide">
+            <div class="heroCategoryPill">Esporte, Foco &amp; Trabalho em Equipe</div>
+            <div class="heroSmallTitle">Garra e Resiliência em Quadra</div>
+            <h1 class="heroBigTitle">Paixão pelo <span>Vôlei</span></h1>
+            <p class="heroDesc">
+              O vôlei me ensinou que nenhum ponto se ganha sozinho. Disciplina tática, superação de limites e comunicação dinâmica que levo tanto para as competições quanto para o desenvolvimento de software.
+            </p>
+            <div class="heroButtons">
+              <a href="#sectionPilares" class="btnDuckbill">VER EM QUADRA</a>
+              <a href="#sectionSobre" class="btnDuckbillSecondary" style="color: #FFF; border-color: #FFF;">SOBRE MIM</a>
+            </div>
+          </div>
+          <div class="heroVisualSide">
+            <img src="assets/icons/volleyball-sticker.svg" class="floatingSticker stickerTopRight" alt="Volleyball Sticker">
+            <img src="assets/icons/fecap-sticker.svg" class="floatingSticker stickerBottomLeft" alt="FECAP Sticker">
+            <img src="assets/images/hero-volei.svg" class="heroArtwork" alt="Vôlei">
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: ARTE & ILUSTRAÇÃO -->
+      <div class="heroSlide" id="slide2">
+        <div class="heroGrid">
+          <div class="heroTextSide">
+            <div class="heroCategoryPill">Expressão Visual &amp; Sketchbooks</div>
+            <div class="heroSmallTitle">Criatividade e Traço Autoral</div>
+            <h1 class="heroBigTitle">Arte &amp; <span>Ilustração</span></h1>
+            <p class="heroDesc">
+              Dos desenhos à mão livre no caderno até a ilustração digital e character design: a arte é meu canal de expressão criativa, onde ideias e formas ganham vida com identidade única.
+            </p>
+            <div class="heroButtons">
+              <a href="#sectionProjetos" class="btnDuckbill">VER ILUSTRAÇÕES</a>
+              <a href="#sectionContato" class="btnDuckbillSecondary" style="color: #FFF; border-color: #FFF;">CONECTAR</a>
+            </div>
+          </div>
+          <div class="heroVisualSide">
+            <img src="assets/icons/drawing-sticker.svg" class="floatingSticker stickerTopRight" alt="Drawing Sticker">
+            <img src="assets/icons/fecap-sticker.svg" class="floatingSticker stickerBottomLeft" alt="FECAP Sticker">
+            <img src="assets/images/hero-art.svg" class="heroArtwork" alt="Arte e Ilustração">
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles com Indicadores de Slide -->
+      <div class="heroPagination">
+        <div class="heroDotBtn active" onclick="setSlide(0)"></div>
+        <div class="heroDotBtn" onclick="setSlide(1)"></div>
+        <div class="heroDotBtn" onclick="setSlide(2)"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION SOBRE COM TIPOGRAFIA ESCALONADA -->
+  <section id="sectionSobre">
+    <div class="container">
+      
+      <div class="sectionHeader">
+        <span class="eyebrow">Apresentação • Colégio FECAP</span>
+        <h2 class="stagger1">Vitoria,</h2>
+        <h2 class="stagger2">vamos <span class="cPrimary">nos</span></h2>
+        <h2 class="stagger3 cPrimary">apresentar</h2>
+      </div>
+
+      <div class="sobreGrid">
+        <div class="sobreImageCol">
+          <img src="assets/images/vitoria-profile.svg" class="profileAvatar" alt="Vitoria Barreto Sousa">
+          <div class="badgeSobreFloat">
+            <span class="title">COLÉGIO FECAP</span>
+            <span class="sub">Técnico em Inteligência Artificial</span>
+          </div>
+        </div>
+
+        <div class="sobreTextCol">
+          <span class="eyebrow">Quem sou eu</span>
+          <p>
+            Olá! Sou a <strong>Vitoria Barreto Sousa</strong>, estudante do curso técnico integrado em <strong>Inteligência Artificial no tradicional Colégio FECAP</strong>, referência histórica em educação e inovação tecnológica em São Paulo.
+          </p>
+          <p>
+            Minha trajetória é movida pela convergência entre a <em>precisão lógica dos algoritmos</em> e a <em>expressividade humana da arte e do esporte</em>. No colégio, estudo redes neurais artificiais, processamento de dados, machine learning e programação em Python.
+          </p>
+          <p>
+            Fora do ambiente acadêmico, você me encontra desenhando em sketchbooks, criando estudos de anatomia e personagens, ou disputando cada ponto na quadra de vôlei com intensidade e disciplina de atleta.
+          </p>
+
+          <div class="statsRow">
+            <div class="statCard">
+              <div class="number">FECAP</div>
+              <div class="label">Técnico em IA</div>
+            </div>
+            <div class="statCard">
+              <div class="number">VÔLEI</div>
+              <div class="label">Atleta &amp; Time</div>
+            </div>
+            <div class="statCard">
+              <div class="number">ARTE</div>
+              <div class="label">Ilustração &amp; Design</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION PILARES / TALENTOS & HORIZONTES -->
+  <section id="sectionPilares">
+    <div class="container">
+      
+      <div class="sectionHeader">
+        <span class="eyebrow">Competências &amp; Dimensões</span>
+        <h2 class="stagger1">Talentos e</h2>
+        <h2 class="stagger2 cPrimary">horizontes</h2>
+      </div>
+
+      <div class="pilaresGrid">
+        <!-- Pilar 1: IA -->
+        <div class="pilarBox">
+          <div class="pilarNumber">01</div>
+          <div class="pilarIconCircle">
+            <img src="assets/icons/ai-node-sticker.svg" alt="IA">
+          </div>
+          <h3>Inteligência Artificial</h3>
+          <p>
+            Formação sólida e prática na FECAP: fundamentos de Machine Learning, Deep Learning, Visão Computacional, algoritmos inteligentes e automação com Python para resolução de problemas reais.
+          </p>
+          <div class="tagsContainer">
+            <span class="tagPill">Python</span>
+            <span class="tagPill">Redes Neurais</span>
+            <span class="tagPill">Visão Comp.</span>
+            <span class="tagPill">Data Science</span>
+          </div>
+        </div>
+
+        <!-- Pilar 2: Vôlei -->
+        <div class="pilarBox">
+          <div class="pilarNumber">02</div>
+          <div class="pilarIconCircle">
+            <img src="assets/icons/volleyball-sticker.svg" alt="Vôlei">
+          </div>
+          <h3>Vôlei &amp; Atletismo</h3>
+          <p>
+            A vivência esportiva nas quadras desenvolve foco inabalável sob pressão, agilidade de reflexos, espírito de liderança e a consciência de que a vitória só existe com união coletiva.
+          </p>
+          <div class="tagsContainer">
+            <span class="tagPill">Trabalho em Equipe</span>
+            <span class="tagPill">Liderança</span>
+            <span class="tagPill">Foco Tático</span>
+            <span class="tagPill">Resiliência</span>
+          </div>
+        </div>
+
+        <!-- Pilar 3: Desenho -->
+        <div class="pilarBox">
+          <div class="pilarNumber">03</div>
+          <div class="pilarIconCircle">
+            <img src="assets/icons/drawing-sticker.svg" alt="Desenho">
+          </div>
+          <h3>Arte &amp; Ilustração</h3>
+          <p>
+            Paixão por desenho tradicional e digital: estudos rigorosos de anatomia humana, perspectiva, teoria das cores, character design e experimentação gráfica com técnicas mistas.
+          </p>
+          <div class="tagsContainer">
+            <span class="tagPill">Character Design</span>
+            <span class="tagPill">Arte Digital</span>
+            <span class="tagPill">Sketchbook</span>
+            <span class="tagPill">Criatividade</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION PROJETOS & CRIAÇÕES -->
+  <section id="sectionProjetos">
+    <div class="container">
+      
+      <div class="sectionHeader">
+        <span class="eyebrow">Portfólio &amp; Destaques</span>
+        <h2 class="stagger1">PROJETOS &amp;</h2>
+        <h2 class="stagger2 cPrimary">CRIAÇÕES</h2>
+      </div>
+
+      <!-- Filtros Rápidos -->
+      <div class="filterNav">
+        <button class="filterBtn active" onclick="filterCategory('all', this)">Todos</button>
+        <button class="filterBtn" onclick="filterCategory('ia', this)">Inteligência Artificial</button>
+        <button class="filterBtn" onclick="filterCategory('arte', this)">Arte &amp; Desenho</button>
+        <button class="filterBtn" onclick="filterCategory('volei', this)">Vôlei &amp; Esporte</button>
+      </div>
+
+      <div class="projetosGrid">
+        
+        <!-- Card 1: IA Neural Vision -->
+        <div class="projectCard" data-cat="ia">
+          <div class="cardThumb">
+            <img src="assets/images/proj-neural.svg" alt="Projeto Neural Vision">
+          </div>
+          <div class="cardContent">
+            <span class="cardTag">Inteligência Artificial • FECAP</span>
+            <h3>Neural Vision</h3>
+            <p>
+              Classificador de imagens com redes convolucionais (CNNs) treinado para reconhecimento de padrões visuais e identificação em tempo real.
+            </p>
+            <a href="#sectionContato" class="cardAction">Saber Mais →</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Sketchbook Arte -->
+        <div class="projectCard" data-cat="arte">
+          <div class="cardThumb">
+            <img src="assets/images/proj-sketchbook.svg" alt="Caderno de Artes">
+          </div>
+          <div class="cardContent">
+            <span class="cardTag">Arte Tradicional &amp; Digital</span>
+            <h3>Caderno de Artes</h3>
+            <p>
+              Série de sketches autorais em grafite, nanquim e aquarela com foco em anatomia, poses dinâmicas e estudos de luz e sombra.
+            </p>
+            <a href="#sectionContato" class="cardAction">Ver Coleção →</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Vôlei Copa -->
+        <div class="projectCard" data-cat="volei">
+          <div class="cardThumb">
+            <img src="assets/images/proj-volei.svg" alt="Copa Escolar de Vôlei">
+          </div>
+          <div class="cardContent">
+            <span class="cardTag">Esporte &amp; Equipe</span>
+            <h3>Copa Escolar</h3>
+            <p>
+              Campanha destacada no torneio intercolegial, com atuação tática de liderança em quadra e organização de jogadas ensaiadas.
+            </p>
+            <a href="#sectionContato" class="cardAction">Ver Detalhes →</a>
+          </div>
+        </div>
+
+        <!-- Card 4: Chatbot Tutor -->
+        <div class="projectCard" data-cat="ia">
+          <div class="cardThumb">
+            <img src="assets/images/proj-chatbot.svg" alt="Tutor FECAP IA">
+          </div>
+          <div class="cardContent">
+            <span class="cardTag">Processamento de Linguagem Natural</span>
+            <h3>Tutor FECAP IA</h3>
+            <p>
+              Agente conversacional de apoio aos colegas de classe para tirar dúvidas de sintaxe Python e reforçar a lógica de programação.
+            </p>
+            <a href="#sectionContato" class="cardAction">Saber Mais →</a>
+          </div>
+        </div>
+
+        <!-- Card 5: Character Design -->
+        <div class="projectCard" data-cat="arte">
+          <div class="cardThumb">
+            <img src="assets/images/proj-character.svg" alt="Character Design">
+          </div>
+          <div class="cardContent">
+            <span class="cardTag">Ilustração Digital</span>
+            <h3>Character Design</h3>
+            <p>
+              Criação de personagens originais para narrativas ilustradas com estudos de expressão facial, silhueta e paletas cromáticas.
+            </p>
+            <a href="#sectionContato" class="cardAction">Ver Galeria →</a>
+          </div>
+        </div>
+
+        <!-- Card 6: Data Volley -->
+        <div class="projectCard" data-cat="volei">
+          <div class="cardThumb">
+            <img src="assets/images/proj-stats.svg" alt="Data Volley">
+          </div>
+          <div class="cardContent">
+            <span class="cardTag">Ciência de Dados &amp; Esporte</span>
+            <h3>Data Volley</h3>
+            <p>
+              Análise estatística de eficácia de ataque e posicionamento defensivo, unindo o raciocínio computacional com a paixão pelo vôlei.
+            </p>
+            <a href="#sectionContato" class="cardAction">Ver Análise →</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION DEPOIMENTOS EM FUNDO ESCURO DUCKBILL -->
+  <section id="sectionDepoimentos">
+    <div class="container">
+      
+      <div class="sectionHeader">
+        <span class="eyebrow" style="color: var(--primary);">Reconhecimento &amp; Convivência</span>
+        <h2 class="stagger1"><span class="cPrimary">O QUE DIZEM</span> SOBRE</h2>
+        <h2 class="stagger2">A <span class="cPrimary">VITORIA</span></h2>
+      </div>
+
+      <div class="depoimentosGrid">
+        <!-- Depoimento 1 -->
+        <div class="depoimentoCard">
+          <img src="assets/icons/aspas.svg" class="quoteIcon" alt="Aspas">
+          <p class="quoteText">
+            "A Vitoria tem uma facilidade admirável em unir raciocínio abstrato, matemática e código. Nos projetos de IA do Colégio FECAP, ela sempre entrega soluções funcionais com um capricho visual fora da curva."
+          </p>
+          <div class="quoteAuthorInfo">
+            <div class="avatarBadgeCircle">P</div>
+            <div>
+              <div class="authorName">Professor de IA</div>
+              <div class="authorMeta">Colégio FECAP</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Depoimento 2 -->
+        <div class="depoimentoCard">
+          <img src="assets/icons/aspas.svg" class="quoteIcon" alt="Aspas">
+          <p class="quoteText">
+            "Jogar com a Vitoria é ter certeza de energia máxima em cada rally. Ela é comunicativa, aguerrida e não desiste de nenhuma bola, sempre puxando a confiança do time inteiro para cima."
+          </p>
+          <div class="quoteAuthorInfo">
+            <div class="avatarBadgeCircle">V</div>
+            <div>
+              <div class="authorName">Colega de Time</div>
+              <div class="authorMeta">Equipe de Vôlei Escolar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Depoimento 3 -->
+        <div class="depoimentoCard">
+          <img src="assets/icons/aspas.svg" class="quoteIcon" alt="Aspas">
+          <p class="quoteText">
+            "Se você quer alguém com quem debater um paper de machine learning e depois ver uma ilustração fantástica feita em minutos no caderno, essa pessoa é a Vitoria. Inspiração diária no colégio!"
+          </p>
+          <div class="quoteAuthorInfo">
+            <div class="avatarBadgeCircle">C</div>
+            <div>
+              <div class="authorName">Amiga de Turma</div>
+              <div class="authorMeta">Técnico em IA • FECAP</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION CTA CONTATO EM VERMELHO DUCKBILL -->
+  <section id="sectionContato">
+    <div class="container">
+      <div class="ctaContainer">
+        <h2 class="ctaTitle">
+          Vamos construir algo incrível juntos?
+        </h2>
+        <p class="ctaText">
+          Estou sempre aberta a novas conexões, projetos colaborativos de Inteligência Artificial, desafios criativos ou troca de experiências acadêmicas.
+        </p>
+        <a href="mailto:vitoria.barreto@fecap.br" class="btnDuckbillWhite">
+          ENTRAR EM CONTATO
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footerGrid">
+        <div class="footerCol">
+          <div class="footerLogo">
+            <img src="assets/icons/vitoria-logo.svg" alt="Vitoria Barreto Sousa Logo">
+          </div>
+          <p style="color: #888; font-size: 14px; line-height: 1.6; max-width: 320px;">
+            Vitoria Barreto Sousa • Estudante do Curso Técnico em Inteligência Artificial no Colégio FECAP. Atleta de vôlei e artista visual.
+          </p>
+        </div>
+
+        <div class="footerCol">
+          <h4>Navegação Rápida</h4>
+          <ul>
+            <li><a href="#sectionSobre">Sobre Mim</a></li>
+            <li><a href="#sectionPilares">Pilares &amp; Habilidades</a></li>
+            <li><a href="#sectionProjetos">Projetos &amp; Criações</a></li>
+            <li><a href="#sectionDepoimentos">Depoimentos</a></li>
+            <li><a href="#sectionContato">Contato</a></li>
+          </ul>
+        </div>
+
+        <div class="footerCol">
+          <h4>Institucional</h4>
+          <p style="color: #AAA; font-size: 14px; margin-bottom: 6px;"><strong>Colégio FECAP</strong> • São Paulo - SP</p>
+          <p style="color: #AAA; font-size: 14px; margin-bottom: 6px;">Curso Técnico em Inteligência Artificial</p>
+          <p style="color: var(--primary); font-size: 13px; font-weight: 700; margin-top: 10px;">DUCKBILL DESIGN SYSTEM COMPLIANT</p>
+        </div>
+      </div>
+
+      <div class="copyrightRow">
+        &copy; 2024 Vitoria Barreto Sousa • Todos os direitos reservados • Construído com fidelidade absoluta ao Design System Duckbill.
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DE INTERATIVIDADE NATIVO (100% OFFLINE) -->
+  <script>
+    // 1. CARROSSEL AUTOMÁTICO E MANUAL DO HERO BANNER
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.heroSlide');
+    const dots = document.querySelectorAll('.heroDotBtn');
+    let autoPlayTimer;
+
+    function setSlide(index) {
+      slides[currentSlide].classList.remove('active');
+      dots[currentSlide].classList.remove('active');
+      currentSlide = (index + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      dots[currentSlide].classList.add('active');
+      resetAutoPlay();
+    }
+
+    function autoAdvance() {
+      setSlide(currentSlide + 1);
+    }
+
+    function resetAutoPlay() {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = setInterval(autoAdvance, 6000);
+    }
+
+    autoPlayTimer = setInterval(autoAdvance, 6000);
+
+    // 2. NAVBAR SCROLL
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('jsHeader');
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // 3. FILTRO DE PROJETOS
+    function filterCategory(cat, btn) {
+      const cards = document.querySelectorAll('.projectCard');
+      const buttons = document.querySelectorAll('.filterBtn');
+
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 4. SMOOTH SCROLL PARA ANCHORS
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const hash = this.getAttribute('href');
+        if (hash && hash.length > 1) {
+          const el = document.querySelector(hash);
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
