@@ -35,8 +35,8 @@
     ctx.clearRect(0, 0, width, height);
     for (const point of points) {
       const age = (now - point.born) / lifetime;
-      const radius = 30 + age * 42;
-      const alpha = (1 - age) ** 2 * .13;
+      const radius = 38 + age * 52;
+      const alpha = (1 - age) ** 2 * .22;
       const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
       gradient.addColorStop(0, `rgba(216,112,168,${alpha})`);
       gradient.addColorStop(.45, `rgba(231,151,187,${alpha * .65})`);

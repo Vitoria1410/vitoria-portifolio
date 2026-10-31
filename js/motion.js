@@ -89,6 +89,7 @@
     const phase = progress < .5 ? 0 : 1;
     const blend = smooth(phase === 0 ? progress * 2 : (progress - .5) * 2);
     const scale = Math.min(width * .95, height * 1.3);
+    const dark = document.documentElement.dataset.theme === 'dark';
     for (const p of particles) {
       const from = phase === 0 ? p.cloud : p.wave;
       const to = phase === 0 ? p.wave : p.flower;
@@ -107,7 +108,7 @@
         }
       }
       context.globalAlpha = p.alpha;
-      context.fillStyle = p.blue ? '#65879c' : '#454942';
+      context.fillStyle = p.blue ? (dark ? '#a6c7d9' : '#65879c') : (dark ? '#edc2dc' : '#454942');
       context.beginPath();
       context.arc(x, y, p.size, 0, Math.PI * 2);
       context.fill();
