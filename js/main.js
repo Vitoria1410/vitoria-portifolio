@@ -25,8 +25,8 @@ const brushCursor = portrait.querySelector('.brush-cursor');
 let lastPoint = null;
 let touched = false;
 function preparePortrait() {
-  reveal.width = mask.width = photo.naturalWidth;
-  reveal.height = mask.height = photo.naturalHeight;
+  reveal.width = mask.width = Math.min(1086, photo.naturalWidth);
+  reveal.height = mask.height = Math.round(reveal.width * photo.naturalHeight / photo.naturalWidth);
   lastPoint = null;
 }
 if (photo.complete && photo.naturalWidth) preparePortrait();

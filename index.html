@@ -6,7 +6,7 @@
 <meta name="description" content="O universo de Vitoria Barreto: estudos em inteligência artificial, desenho, fotografia e as pequenas coisas que dão cor à vida.">
 <link rel="icon" href="assets/icons/drawing-sticker.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css"><script src="js/main.js" defer></script>
+<link rel="stylesheet" href="css/style.css"><script src="js/main.js" defer></script><script src="js/motion.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#sobre">Pular para o conteúdo</a>
@@ -23,6 +23,16 @@
 </section>
 <div class="ticker" aria-hidden="true"><div>cabeça nas nuvens <span>✳</span> pés no mundo <span>✳</span> mãos criando <span>✳</span> cabeça nas nuvens <span>✳</span> pés no mundo <span>✳</span> mãos criando <span>✳</span></div></div>
 <section class="about section" id="sobre"><div class="section-label">01 — ANTES DE QUALQUER CURRÍCULO</div><div class="about-grid"><h2>Eu sou feita<br>de <em>muitas</em><br><span class="handwritten">pequenas coisas.</span></h2><div class="about-copy"><p class="lead">Gosto de viver.<br>De sentir. De reparar.</p><p>No céu que muda de cor, no formato das nuvens, na paisagem que dá vontade de guardar em uma foto. Amo praia, música e os mundos do Studio Ghibli.</p><p>Desenho, faço nail art e também cookies para vender na escola. Tenho um pastor alemão e várias, várias fotos. No meio de tudo isso, estudo Inteligência Artificial na FECAP e jogo vôlei.</p><p class="underlined">Meu currículo conta o que eu faço.<br>Aqui, quero contar um pouco de quem eu sou.</p></div></div></section>
+<section class="daydream" id="devaneio" aria-labelledby="daydream-title">
+  <div class="daydream-stage">
+    <div class="daydream-meta"><span class="section-label">UM PEQUENO DEVANEIO</span><button id="motion-toggle" type="button" aria-pressed="false">pausar movimento ⏸</button></div>
+    <div class="daydream-layout">
+      <div class="daydream-copy"><h2 id="daydream-title">Tudo começa<br>com um <em>olhar.</em></h2><p>Uma nuvem. O movimento do mar.<br>Uma ideia que vira desenho.</p><span class="handwritten">é assim que eu vejo o mundo.</span></div>
+      <div class="particle-scene"><canvas id="daydream-canvas" aria-hidden="true"></canvas><span class="particle-caption" aria-hidden="true">01 / CABEÇA NAS NUVENS</span><noscript><span class="handwritten">☁ do céu ao papel ✿</span></noscript></div>
+    </div>
+    <div class="daydream-bottom"><span>DO CÉU AO PAPEL</span><div class="daydream-progress" aria-hidden="true"><span></span></div><span>continue explorando ↓</span></div>
+  </div>
+</section>
 <section class="universe section" id="universo"><div class="section-label">02 — FORA DO CURRÍCULO</div><div class="section-heading"><h2>Um mundo<br><em>aqui dentro.</em></h2><p>Algumas das coisas que deixam<br>os meus dias mais meus.</p></div><div class="scrapbook">
 <article class="scrap scrap-drawing"><span class="scrap-number">01 / CRIAR</span><svg class="doodle" viewBox="0 0 230 130" aria-hidden="true"><path d="M38 97Q70 30 88 83T127 55T174 61M42 111l138-5M176 24l16 9-50 68-17 8 4-19zM178 23l9-12 17 13-12 11"/></svg><h3>Mais um rabisco.</h3><p>Desenhos, ideias soltas e nail art. Gosto de dar forma ao que imagino.</p><span class="handwritten">até na ponta dos dedos.</span></article>
 <article class="scrap scrap-sky"><span class="scrap-number">02 / REPARAR</span><div class="sky-window" aria-hidden="true"><span class="cloud cloud-one"></span><span class="cloud cloud-two"></span><span class="tiny-sun"></span></div><h3>Coleciono céus.</h3><p>Paisagens, nuvens e praia. Às vezes, a vontade é só parar e fotografar.</p><span class="handwritten">o mundo já faz tanta arte.</span></article>
