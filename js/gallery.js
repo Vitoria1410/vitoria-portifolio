@@ -45,6 +45,8 @@
     const isVideo = card.dataset.kind === 'video';
     fullPhoto.hidden = isVideo;
     if (isVideo) {
+      fullVideo.muted = true;
+      fullVideo.defaultMuted = true;
       fullVideo.poster = card.querySelector('img').src;
       fullVideo.src = card.href;
       fullVideo.setAttribute('aria-label', card.dataset.title);
