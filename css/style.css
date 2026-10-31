@@ -96,3 +96,6 @@ body.photo-open{overflow:hidden}.photo-dialog{width:min(1100px,94vw);max-width:n
 @media(max-width:700px){.daydream{height:200vh}.daydream-stage{height:100svh;min-height:650px}.daydream-copy h2{font-size:clamp(45px,11.8vw,62px);letter-spacing:-2px}.daydream-copy p{font-size:11px}.daydream-copy .handwritten{font-size:23px;margin-top:15px}.daydream .particle-caption{width:100%;font-size:7px;bottom:0}.daydream-copy{max-width:100%}}
 @media(prefers-reduced-motion:reduce){.daydream{height:auto}.daydream-stage{min-height:750px;height:100svh}.daydream-copy{left:0;top:50%;transform:translateY(-50%)}.daydream .particle-scene{opacity:.85}.daydream-copy h2{font-size:clamp(45px,5.6vw,92px)}}
 @media(max-width:700px) and (prefers-reduced-motion:reduce){.daydream-copy{left:50%;top:23%;transform:translate(-50%,-50%)}}
+.daydream.butterfly-story #daydream-title{opacity:var(--title-opacity,0)}.daydream.butterfly-story .daydream-copy>p,.daydream.butterfly-story .daydream-copy>.handwritten{opacity:var(--story-opacity,0)}.daydream{height:290vh}.daydream #daydream-canvas{cursor:crosshair}
+@media(max-width:700px){.daydream{height:250vh}}
+@media(prefers-reduced-motion:reduce){.daydream{height:auto}.daydream.butterfly-story #daydream-title,.daydream.butterfly-story .daydream-copy>p,.daydream.butterfly-story .daydream-copy>.handwritten{opacity:1}}
