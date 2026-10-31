@@ -47,12 +47,15 @@ class ClotheslinePhysics {
   const path=rope.querySelector('path');
   const toggle=section.querySelector('#line-motion-toggle');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  const physics=new ClotheslinePhysics(items.length);
+  let activeIndices=items.map((_,i)=>i);
+  let visibleLinks=links;
+  let physics=new ClotheslinePhysics(items.length);
   let bases=[],frame=null,last=0,clock=0,inView=false,paused=false,gesture=null;
   let suppressedClick=null;
   function draw(){
     const points=[{x:3,y:55}];
-    items.forEach((item,i)=>{
+    activeIndices.forEach((index,i)=>{
+      const item=items[index];
       const n=physics.nodes[i];
       item.style.transform=`translate3d(${n.x.toFixed(2)}px,${n.y.toFixed(2)}px,0) rotate(${n.angle.toFixed(2)}deg)`;
       points.push({x:bases[i].x+n.x,y:bases[i].y+n.y});
@@ -66,7 +69,7 @@ class ClotheslinePhysics {
     path.setAttribute('d',d);
   }
   function measure(){
-    bases=items.map(item=>({x:item.offsetLeft+item.offsetWidth/2,y:item.offsetTop-14}));
+    bases=activeIndices.map(index=>{const item=items[index];return{x:item.offsetLeft+item.offsetWidth/2,y:item.offsetTop-14};});
     rope.setAttribute('viewBox',`0 0 ${track.offsetWidth} 185`);
     draw();updateNavigation();
   }
@@ -89,10 +92,11 @@ class ClotheslinePhysics {
     // Touch users drag the peg; the photograph remains easy to swipe or scroll.
     if(!fromPin&&event.pointerType!=='mouse')return;
     if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
-    const n=physics.nodes[index];
-    gesture={id:event.pointerId,index,startX:event.clientX,startY:event.clientY,x:n.x,y:n.y,moved:false};
+    const slot=activeIndices.indexOf(index);if(slot<0)return;
+    const n=physics.nodes[slot];
+    gesture={id:event.pointerId,index,slot,startX:event.clientX,startY:event.clientY,x:n.x,y:n.y,moved:false};
     event.currentTarget.setPointerCapture(event.pointerId);
-    physics.grab(index,n.x,n.y);items[index].classList.add('is-grabbed');schedule();
+    physics.grab(slot,n.x,n.y);items[index].classList.add('is-grabbed');schedule();
   }
   items.forEach((item,index)=>{
     const pin=pins[index],link=links[index];pin.hidden=false;
@@ -102,7 +106,7 @@ class ClotheslinePhysics {
         if(!gesture||gesture.index!==index||gesture.id!==e.pointerId)return;
         const dx=e.clientX-gesture.startX,dy=e.clientY-gesture.startY;
         if(Math.hypot(dx,dy)>6)gesture.moved=true;
-        physics.grab(index,gesture.x+dx,gesture.y+dy);
+        physics.grab(gesture.slot,gesture.x+dx,gesture.y+dy);
       });
       target.addEventListener('pointerup',endGesture);
       target.addEventListener('pointercancel',endGesture);
@@ -110,18 +114,19 @@ class ClotheslinePhysics {
       target.addEventListener('dragstart',e=>e.preventDefault());
     }
     pin.addEventListener('click',e=>{
-      if(e.detail===0&&!paused&&!reduced.matches){physics.nodes[index].vx+=70;physics.nodes[index].vy+=35;schedule();}
+      if(e.detail===0&&!paused&&!reduced.matches){const n=physics.nodes[activeIndices.indexOf(index)];if(!n)return;n.vx+=70;n.vy+=35;schedule();}
     });
     pin.addEventListener('keydown',e=>{
       if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
       e.preventDefault();if(paused||reduced.matches)return;
-      const n=physics.nodes[index];if(e.key==='ArrowLeft')n.vx-=60;if(e.key==='ArrowRight')n.vx+=60;if(e.key==='ArrowUp')n.vy-=50;if(e.key==='ArrowDown')n.vy+=50;schedule();
+      const n=physics.nodes[activeIndices.indexOf(index)];if(!n)return;if(e.key==='ArrowLeft')n.vx-=60;if(e.key==='ArrowRight')n.vx+=60;if(e.key==='ArrowUp')n.vy-=50;if(e.key==='ArrowDown')n.vy+=50;schedule();
     });
   });
   function updateMotion(){
     endGesture();
     pins.forEach(pin=>{pin.disabled=paused||reduced.matches;});
     toggle.hidden=reduced.matches;
+    section.querySelector('#line-help').textContent=paused||reduced.matches?'Deslize para explorar. Toque em uma criação para ver a imagem inteira.':'Puxe pelo pregador para balançar. Deslize para explorar e toque na imagem para ampliar.';
     if(paused||reduced.matches){if(frame!==null)cancelAnimationFrame(frame);frame=null;last=0;physics.reset();draw();}
     else schedule();
   }
@@ -135,11 +140,11 @@ class ClotheslinePhysics {
   // Native dialog preserves focus and keeps the complete, uncropped artwork.
   const dialog=document.querySelector('.art-dialog'),full=document.querySelector('#full-art'),title=document.querySelector('#art-dialog-title'),count=document.querySelector('#art-dialog-count');
   let selected=0,opener=null;
-  function display(index){selected=(index+links.length)%links.length;full.src=links[selected].href;full.alt=links[selected].querySelector('img').alt;title.textContent=links[selected].dataset.title;count.textContent=`${selected+1} / ${links.length}`;}
+  function display(index){selected=(index+visibleLinks.length)%visibleLinks.length;full.src=visibleLinks[selected].href;full.alt=visibleLinks[selected].querySelector('img').alt;title.textContent=visibleLinks[selected].dataset.title;count.textContent=`${selected+1} / ${visibleLinks.length}`;}
   links.forEach((link,index)=>link.addEventListener('click',e=>{
     if(suppressedClick?.index===index&&performance.now()<suppressedClick.until){e.preventDefault();suppressedClick=null;return;}
     if(!dialog.showModal||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||e.button!==0)return;
-    e.preventDefault();opener=link;display(index);dialog.showModal();document.body.classList.add('photo-open');
+    e.preventDefault();opener=link;display(activeIndices.indexOf(index));dialog.showModal();document.body.classList.add('photo-open');
   }));
   document.querySelector('#close-art').addEventListener('click',()=>dialog.close());
   document.querySelector('#previous-art').addEventListener('click',()=>display(selected-1));
@@ -147,12 +152,32 @@ class ClotheslinePhysics {
   dialog.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();display(selected+(e.key==='ArrowLeft'?-1:1));}});
   dialog.addEventListener('click',e=>{const r=dialog.getBoundingClientRect();if(e.target===dialog&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))dialog.close();});
   dialog.addEventListener('close',()=>{document.body.classList.remove('photo-open');opener?.focus({preventScroll:true});});
+  const filters=[...section.querySelectorAll('[data-art-filter]')];
+  const filterLabels={all:'todas',desenho:'desenhos',pintura:'pintura',unhas:'nail art'};
+  filters.forEach(button=>{
+    const kind=button.dataset.artFilter;
+    const total=items.filter(item=>kind==='all'||item.dataset.artKind===kind).length;
+    button.textContent=`${filterLabels[kind]} (${total})`;
+  });
+  section.querySelector('.atelier-filters').hidden=false;
+  filters.forEach(button=>button.addEventListener('click',()=>{
+    endGesture();physics.reset();suppressedClick=null;
+    const kind=button.dataset.artFilter;
+    filters.forEach(other=>other.setAttribute('aria-pressed',String(other===button)));
+    items.forEach(item=>{item.hidden=kind!=='all'&&item.dataset.artKind!==kind;});
+    activeIndices=items.map((_,index)=>index).filter(index=>!items[index].hidden);
+    visibleLinks=activeIndices.map(index=>links[index]);
+    physics=new ClotheslinePhysics(activeIndices.length);
+    viewport.scrollTo({left:0,behavior:'instant'});
+    section.querySelector('#line-count').textContent=`${visibleLinks.length} ${visibleLinks.length===1?'CRIAÇÃO':'CRIAÇÕES'} / UM VARAL EM CONSTRUÇÃO`;
+    viewport.setAttribute('aria-label',`Varal com ${visibleLinks.length} criações. Use as setas para percorrer.`);
+    measure();updateMotion();
+  }));
   reduced.addEventListener('change',updateMotion);
   document.addEventListener('visibilitychange',()=>{endGesture();if(document.hidden){if(frame!==null)cancelAnimationFrame(frame);frame=null;last=0;}else schedule();});
   addEventListener('resize',measure,{passive:true});
   if('ResizeObserver'in window)new ResizeObserver(measure).observe(viewport);
   if('IntersectionObserver'in window)new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(inView)schedule();else{endGesture();if(frame!==null)cancelAnimationFrame(frame);frame=null;last=0;}}).observe(section);else inView=true;
   section.classList.add('line-ready');
-  section.querySelector('#line-help').textContent='Puxe pelo pregador para balançar. Deslize para explorar e toque na imagem para ampliar.';
   measure();updateMotion();schedule();
 })();
