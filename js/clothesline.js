@@ -140,7 +140,7 @@ class ClotheslinePhysics {
   // Native dialog preserves focus and keeps the complete, uncropped artwork.
   const dialog=document.querySelector('.art-dialog'),full=document.querySelector('#full-art'),title=document.querySelector('#art-dialog-title'),count=document.querySelector('#art-dialog-count');
   let selected=0,opener=null;
-  function display(index){selected=(index+visibleLinks.length)%visibleLinks.length;full.src=visibleLinks[selected].href;full.alt=visibleLinks[selected].querySelector('img').alt;title.textContent=visibleLinks[selected].dataset.title;count.textContent=`${selected+1} / ${visibleLinks.length}`;}
+  function display(index){selected=(index+visibleLinks.length)%visibleLinks.length;full.src=visibleLinks[selected].href;full.style.filter=visibleLinks[selected].dataset.imageFilter||'';full.alt=visibleLinks[selected].querySelector('img').alt;title.textContent=visibleLinks[selected].dataset.title;count.textContent=`${selected+1} / ${visibleLinks.length}`;}
   links.forEach((link,index)=>link.addEventListener('click',e=>{
     if(suppressedClick?.index===index&&performance.now()<suppressedClick.until){e.preventDefault();suppressedClick=null;return;}
     if(!dialog.showModal||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||e.button!==0)return;
