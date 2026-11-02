@@ -203,6 +203,15 @@
         context.globalAlpha=alpha;
         const diameter=radius*(6+energy*6);
         context.drawImage((energy>.18?litSprites:sprites)[tint+(dark?0:3)],x-diameter/2,y-diameter/2,diameter,diameter);
+        if(energy>.08&&fade>.01){
+          context.globalCompositeOperation=dark?'lighter':'source-over';
+          const halo=radius*(10+energy*9);
+          context.globalAlpha=energy*.3*fade;
+          context.drawImage(sprites[1],x-halo/2,y-halo/2,halo,halo);
+          context.globalAlpha=Math.min(1,energy*1.3)*fade;
+          context.drawImage(sprites[0],x-radius*2,y-radius*2,radius*4,radius*4);
+          context.globalCompositeOperation='source-over';
+        }
       }
     }
     for(const p of sparkles){
