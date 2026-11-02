@@ -99,7 +99,7 @@
   toggle.addEventListener('click', () => {
     petalsPaused = !petalsPaused;
     toggle.setAttribute('aria-pressed', String(petalsPaused));
-    toggle.textContent = petalsPaused ? 'retomar pétalas ▷' : 'pausar pétalas ⏸';
+    toggle.textContent = petalsPaused ? 'retomar jardim ▷' : 'pausar jardim ⏸';
     updatePetals();
   });
   reducedMotion.addEventListener('change', updatePetals);

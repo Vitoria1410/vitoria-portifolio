@@ -148,12 +148,15 @@ document.querySelector('#save-drawing').addEventListener('click', () => {
   outputContext.drawImage(drawing, 0, 0);
   download.href = output.toDataURL('image/png');
   download.hidden = false;
+  let savedLocally=false;
   try {
     localStorage.setItem('vitoria-guest-drawing', drawing.toDataURL('image/png'));
+    savedLocally=true;
     status.textContent = 'Seu traço ficou guardado neste navegador. Você também pode baixar a imagem ao lado.';
   } catch {
     status.textContent = 'Este navegador não permitiu salvar. Use “baixar meu desenho” para guardar a imagem.';
   }
+  document.dispatchEvent(new CustomEvent('drawing-confirmed',{detail:{url:download.href,savedLocally}}));
 });
 try {
   const saved = localStorage.getItem('vitoria-guest-drawing');
