@@ -107,8 +107,11 @@
   // during interaction, instead of several overlapping glow layers.
   const litSprites=sprites.map((sprite,index)=>{
     const tile=document.createElement('canvas');tile.width=tile.height=24;
-    const c=tile.getContext('2d');c.drawImage(sprite,0,0);
-    c.globalAlpha=.65;c.drawImage(sprites[index<3?0:4],5,5,14,14);
+    const c=tile.getContext('2d'),halo=c.createRadialGradient(12,12,0,12,12,12);
+    halo.addColorStop(0,'#ffffff');halo.addColorStop(.12,'#fff4fc');
+    halo.addColorStop(.3,'#ff9cdbe6');halo.addColorStop(.6,'#ff64bd66');halo.addColorStop(1,'#ff64bd00');
+    c.fillStyle=halo;c.fillRect(0,0,24,24);
+    c.drawImage(sprite,6,6,12,12);
     return tile;
   });
   function updateProgress() {
@@ -198,7 +201,8 @@
         const tint=p.eye||p.tint<.15?2:p.edge?0:1;
         const radius=(p.size+(p.edge?.35:0))*Math.max(.8,b.size)*perspective*(1+energy*.25);
         context.globalAlpha=alpha;
-        context.drawImage((energy>.18?litSprites:sprites)[tint+(dark?0:3)],x-radius*3,y-radius*3,radius*6,radius*6);
+        const diameter=radius*(6+energy*6);
+        context.drawImage((energy>.18?litSprites:sprites)[tint+(dark?0:3)],x-diameter/2,y-diameter/2,diameter,diameter);
       }
     }
     for(const p of sparkles){

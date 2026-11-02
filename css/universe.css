@@ -5,7 +5,7 @@
 .universe #universe-title { font-size:clamp(40px,4.6vw,70px); margin:0; }
 .universe .section-heading p { font-size:12px; margin:0; }
 .universe-toolbar { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; }
-.universe-tabs { display:flex; gap:8px; }
+.universe-tabs { display:flex; gap:8px; flex-wrap:wrap; }
 .universe-tabs[hidden] { display:none; }
 .universe-toolbar button { background:none; font-size:11px; padding:9px 13px; border:1px solid transparent; border-radius:25px; }
 .universe-tabs [aria-selected="true"] { background:#eab8cf; color:#30232c; }
@@ -50,6 +50,18 @@
 .frida-memory:nth-child(2) img { object-position:50% 42%; }
 .frida-memory:nth-child(3) img { object-position:60% 50%; }
 .frida-memory figcaption { display:block; font-size:25px; text-align:center; margin:8px 0 0; letter-spacing:0; }
+.cookies-panel { display:grid; grid-template-columns:.8fr 1.2fr; align-items:center; gap:6%; }
+.cookie-story h3 { font-family:var(--serif); font-size:clamp(34px,4vw,58px); font-weight:500; letter-spacing:-2px; line-height:1; margin:15px 0; }
+.cookie-story h3 em { font-family:var(--hand); color:#a94479; font-size:1.2em; }
+.cookie-story p { font-size:12px; line-height:1.9; margin-bottom:16px; }
+.cookie-story>.handwritten { font-size:26px; }
+.cookie-memories { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:10px; }
+.cookie-memories figure { background:#fff9ef; color:#252521; margin:0; padding:8px; transform:rotate(-4deg); }
+.cookie-memories figure:nth-child(2) { transform:rotate(4deg); }
+.cookie-memories img { display:block; width:100%; height:220px; object-fit:cover; }
+.cookie-memories figcaption { display:block; text-align:center; font-size:25px; letter-spacing:0; margin-top:8px; }
+[data-theme="dark"] .cookie-memories figure { background:#342e37; color:#f3ebef; }
+[data-theme="dark"] .cookie-story h3 em { color:#eeb2d0; }
 .curiosity-bottom { display:flex; align-items:center; gap:18px; margin-top:12px; font-size:10px; color:var(--muted); }
 .curiosity-position { color:var(--ink); letter-spacing:1px; }
 .curiosity-arrows { display:flex; gap:8px; margin-left:auto; }
@@ -74,6 +86,7 @@
  .music-scrap h3 { font-size:22px; margin-bottom:10px; }.artist-links { gap:2px 14px; }.artist-links a { font-size:11px; }.music-hint { font-size:9px; margin-top:7px; }
  .frida-intro { display:block; margin-bottom:16px; }.frida-intro .handwritten { font-size:27px; }.frida-memories { padding:0; gap:10px; }.frida-memory { padding:4px 4px 8px; }.frida-memory img { height:180px; }.frida-memory figcaption { font-size:19px; line-height:1.1; }
  .everyday-notes { gap:9px 18px; font-size:10px; }
+ .cookies-panel { grid-template-columns:1fr; gap:12px; }.cookie-story h3 br { display:none; }.cookie-story h3 { font-size:34px; margin:7px 0; }.cookie-story p { margin:0; font-size:11px; }.cookie-story>.handwritten { display:none; }.cookie-memories { gap:15px; padding:8px; }.cookie-memories img { height:160px; }.cookie-memories figcaption { font-size:21px; }
 }
 @media(prefers-reduced-motion:reduce) {
  .curiosity-rail { scroll-behavior:auto; }.tape-window i,.music-equalizer i { animation:none; }

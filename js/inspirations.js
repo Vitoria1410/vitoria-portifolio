@@ -31,7 +31,7 @@
       panels[i].setAttribute('aria-hidden',String(i!==index));
     });
     back.disabled=index===0;next.disabled=index===panels.length-1;
-    section.querySelector('.curiosity-position').textContent=`0${index+1} / 03`;
+    section.querySelector('.curiosity-position').textContent=`${String(index+1).padStart(2,'0')} / ${String(panels.length).padStart(2,'0')}`;
     sync();
   }
   const position=index=>panels[index].offsetLeft-panels[0].offsetLeft;
