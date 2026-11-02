@@ -1,56 +1,80 @@
-.universe { overflow: hidden; }
-.universe-toolbar { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:35px; }
-.universe-toolbar .handwritten { color:#a94479; transform:rotate(-3deg); }
-.universe-toolbar button { padding:6px 0; font-size:11px; background:none; border-bottom:1px solid var(--line); }
-.universe-board { display:grid; grid-template-columns:1.15fr 1fr; gap:35px 7%; align-items:start; }
-.film-scrap { position:relative; margin:0; padding:12px 12px 0; background:#fff9ef; color:#252521; box-shadow:0 15px 35px #00000016; }
-.film-scrap::before { content:''; position:absolute; z-index:1; top:-14px; left:39%; width:90px; height:27px; background:#e4b9c3a8; transform:rotate(-7deg); pointer-events:none; }
-.film-scrap video { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:#26352f; }
-.film-scrap figcaption { align-items:center; padding:12px 5px 15px; margin:0; letter-spacing:0; }
-.film-scrap figcaption>span { font-family:var(--hand); font-size:28px; line-height:1.1; }
-.film-scrap figcaption a { font-size:9px; white-space:nowrap; padding:8px 0 8px 8px; }
-.film-rank { position:absolute; z-index:1; top:28px; left:28px; color:#fff; font-size:9px; letter-spacing:1.4px; text-shadow:0 1px 8px #000; }
-.film-favorite { grid-row:span 2; transform:rotate(-3deg); margin-top:20px; }
-.film-favorite video { aspect-ratio:4/4.2; }
-.film-train { transform:rotate(3deg); }
-.film-flowers { transform:rotate(-2deg); margin-left:8%; }
-.film-annotation { position:absolute; bottom:-45px; left:10%; color:var(--ink); font-size:26px; transform:rotate(-2deg); }
-.music-scrap { margin-top:70px; padding:0 5%; transform:rotate(1deg); }
-.music-scrap .section-label { display:block; margin-bottom:20px; }
-.mixtape { max-width:380px; padding:18px 24px 12px; border-radius:14px; background:#28252c; border:2px solid #66515e; box-shadow:6px 9px 0 #00000016; color:#f4e7ee; }
+/* Compact scrapbook with native horizontal scrolling. */
+.universe { overflow:hidden; }
+.universe .section-label { margin-bottom:15px; }
+.universe .section-heading { align-items:center; margin-bottom:24px; gap:25px; }
+.universe #universe-title { font-size:clamp(40px,4.6vw,70px); margin:0; }
+.universe .section-heading p { font-size:12px; margin:0; }
+.universe-toolbar { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; }
+.universe-tabs { display:flex; gap:8px; }
+.universe-tabs[hidden] { display:none; }
+.universe-toolbar button { background:none; font-size:11px; padding:9px 13px; border:1px solid transparent; border-radius:25px; }
+.universe-tabs [aria-selected="true"] { background:#eab8cf; color:#30232c; }
+.universe-tabs button:hover { border-color:var(--line); }
+#inspiration-motion { font-size:10px; padding-right:0; white-space:nowrap; }
+.curiosity-rail { display:flex; gap:24px; overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:thin; scrollbar-color:#c68ba9 transparent; border-block:1px solid var(--line); }
+.curiosity-panel { flex:0 0 100%; min-width:0; padding:30px 15px 18px; scroll-snap-align:start; scroll-snap-stop:always; box-sizing:border-box; }
+.film-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:25px; padding:3px 4px 8px; }
+.film-scrap { position:relative; margin:0; padding:8px 8px 0; background:#fff9ef; color:#252521; box-shadow:0 8px 18px #0001; align-self:center; transform:rotate(-2deg); }
+.film-scrap:nth-child(2) { transform:rotate(2deg); }
+.film-scrap::before { content:''; position:absolute; z-index:1; top:-12px; left:38%; width:70px; height:23px; background:#e4b9c3b5; transform:rotate(-7deg); pointer-events:none; }
+.film-scrap video { display:block; width:100%; height:clamp(150px,18vw,240px); object-fit:cover; background:#26352f; }
+.film-scrap figcaption { align-items:center; padding:12px 3px; margin:0; letter-spacing:0; gap:8px; }
+.film-scrap figcaption>span { font-family:var(--hand); font-size:clamp(20px,2vw,27px); line-height:1.1; }
+.film-scrap figcaption a { font-size:9px; white-space:nowrap; padding:6px 0; }
+.film-rank { position:absolute; z-index:1; top:22px; left:20px; color:#fff; font-size:8px; letter-spacing:1px; text-shadow:0 1px 7px #000; }
+.film-credit { font-size:10px; color:var(--muted); text-align:center; margin:14px 0 0; }
+.music-panel { display:flex; align-items:center; }
+.music-scrap { display:grid; grid-template-columns:minmax(200px,.9fr) 1fr; align-items:center; gap:0 7%; width:100%; padding:10px 5%; }
+.music-scrap>.section-label { grid-column:1/-1; font-size:9px; }
+.mixtape { padding:18px 24px 12px; border-radius:14px; background:#28252c; border:2px solid #66515e; box-shadow:6px 9px 0 #00000016; color:#f4e7ee; transform:rotate(-4deg); }
 .mixtape>.handwritten { display:block; background:#edb7d0; color:#30232c; border-radius:4px; padding:7px 8px; font-size:25px; text-align:center; }
 .tape-window { margin:13px auto; display:flex; align-items:center; justify-content:space-around; border:1px solid #8e7584; border-radius:25px; max-width:230px; background:#17151b; }
-.tape-window i { width:37px; height:37px; border:6px dashed #d7cdd3; border-radius:50%; margin:6px; }
+.tape-window i { width:37px; height:37px; border:6px dashed #d7cdd3; border-radius:50%; margin:6px; animation:tape-roll 7s linear infinite; }
 .tape-window>span { font-size:21px; color:#ec9dc3; }
-.mixtape small { display:block; font-size:8px; letter-spacing:3px; text-align:center; }
-.music-scrap h3 { font-family:var(--serif); font-size:29px; font-weight:500; line-height:1.2; margin:28px 0 20px; }
+.mixtape small { display:block; font-size:8px; letter-spacing:2px; text-align:center; }
+.music-equalizer { display:flex; justify-content:center; align-items:center; height:24px; gap:4px; margin-bottom:9px; }
+.music-equalizer i { width:4px; height:20px; background:#eaa5c7; border-radius:4px; transform:scaleY(.3); animation:tape-beat var(--beat) var(--delay) ease-in-out infinite alternate; }
+.music-scrap h3 { font-family:var(--serif); font-size:clamp(24px,2.5vw,34px); font-weight:500; line-height:1.2; margin:0 0 20px; }
 .music-scrap h3 em { font-family:var(--hand); color:#a94479; font-size:1.2em; }
 .artist-links { display:flex; gap:8px 17px; flex-wrap:wrap; }
 .artist-links a { font-size:12px; border-bottom:1px solid var(--line); padding:5px 0; }
 .artist-links a:hover { color:#b52270; }
-.music-hint,.film-credit { font-size:10px; color:var(--muted); }
-.music-hint { margin-top:14px; }
-.universe-notes { margin:85px 8% 0; padding:25px 0; border-top:1px solid var(--line); }
-.universe-notes>.handwritten { display:block; font-size:32px; margin-bottom:22px; transform:rotate(-4deg); }
-.universe-notes>a { display:block; width:fit-content; font-family:var(--hand); font-size:27px; padding:5px 0; }
-.universe-notes p { margin-top:25px; font-size:13px; line-height:1.9; }
-.universe-notes>.frida-scrap { display:block; width:min(240px,90%); padding:9px 9px 12px; margin:0 auto 40px; background:#fff9ef; color:#252521; box-shadow:0 8px 25px #0002; transform:rotate(5deg); }
-.frida-scrap img { display:block; width:100%; height:230px; object-fit:cover; object-position:50% 42%; }
-.frida-scrap .handwritten { display:block; text-align:center; font-size:28px; margin-top:10px; }
-[data-theme="dark"] .universe-notes>.frida-scrap { background:#342e37; color:#f3ebef; }
-.film-credit { margin-top:45px; text-align:center; }
-[data-theme="dark"] :is(.universe-toolbar .handwritten,.music-scrap h3 em) { color:#eeb2d0; }
-[data-theme="dark"] .film-scrap { background:#342e37; color:#f3ebef; box-shadow:0 15px 35px #0003; }
+.music-hint { font-size:10px; color:var(--muted); margin:14px 0 0; }
+.frida-intro { display:flex; align-items:center; gap:20px; margin-bottom:20px; }
+.frida-intro .handwritten { font-size:30px; }
+.frida-intro p { font-size:11px; color:var(--muted); margin:0; }
+.frida-memories { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; padding:0 7%; }
+.frida-memory { background:#fff9ef; color:#252521; margin:0; padding:8px 8px 10px; transform:rotate(-3deg); }
+.frida-memory:nth-child(2) { transform:rotate(3deg); }
+.frida-memory img { display:block; width:100%; height:clamp(155px,18vw,230px); object-fit:cover; object-position:50% 62%; }
+.frida-memory:nth-child(2) img { object-position:50% 42%; }
+.frida-memory:nth-child(3) img { object-position:60% 50%; }
+.frida-memory figcaption { display:block; font-size:25px; text-align:center; margin:8px 0 0; letter-spacing:0; }
+.curiosity-bottom { display:flex; align-items:center; gap:18px; margin-top:12px; font-size:10px; color:var(--muted); }
+.curiosity-position { color:var(--ink); letter-spacing:1px; }
+.curiosity-arrows { display:flex; gap:8px; margin-left:auto; }
+.curiosity-arrows button { border:1px solid var(--line); border-radius:50%; width:34px; height:34px; background:none; }
+.curiosity-arrows button:disabled { opacity:.3; cursor:default; }
+.everyday-notes { display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px; margin-top:24px; font-size:11px; }
+.everyday-notes .handwritten { font-size:25px; }
+.universe:not(.curiosity-moving) :is(.tape-window i,.music-equalizer i) { animation-play-state:paused; }
+[data-theme="dark"] .music-scrap h3 em { color:#eeb2d0; }
+[data-theme="dark"] :is(.film-scrap,.frida-memory) { background:#342e37; color:#f3ebef; }
+@keyframes tape-roll { to { transform:rotate(360deg); } }
+@keyframes tape-beat { to { transform:scaleY(1); } }
 @media(max-width:700px) {
- .universe-toolbar { align-items:start; }.universe-toolbar .handwritten { font-size:25px; max-width:200px; }
- .universe-toolbar button { flex-shrink:0; font-size:9px; }
- .universe-board { gap:30px 5%; }.film-scrap { padding:6px 6px 0; }
- .film-favorite { grid-column:1/-1; grid-row:auto; width:85%; margin:10px auto 35px; }
- .film-favorite video { aspect-ratio:4/3; }.film-annotation { font-size:23px; bottom:-38px; }
- .film-scrap figcaption>span { font-size:22px; }.film-scrap figcaption { flex-wrap:wrap; padding:10px 3px; gap:3px; }
- .film-rank { top:17px; left:15px; font-size:7px; letter-spacing:.8px; }
- .film-scrap::before { width:60px; height:20px; top:-11px; }
- .film-flowers { margin-left:0; }.film-train video,.film-flowers video { aspect-ratio:1; }
- .music-scrap { grid-column:1/-1; margin-top:20px; padding:0 3%; }.mixtape { margin:auto; }
- .universe-notes { grid-column:1/-1; margin:10px 4% 0; }.film-credit { line-height:1.8; }
+ .universe.section { padding:45px 6%; }
+ .universe .section-heading { display:block; margin-bottom:18px; }.universe .section-heading p { margin-top:10px; }
+ .universe #universe-title { font-size:43px; letter-spacing:-2px; }
+ .universe-toolbar { gap:8px; }.universe-tabs { gap:1px; }.universe-toolbar button { font-size:10px; padding:8px; }#inspiration-motion { font-size:8px; max-width:80px; white-space:normal; }
+ .curiosity-panel { padding:24px 8px 15px; }.film-strip { gap:10px; padding-inline:0; }
+ .film-scrap { padding:4px 4px 0; }.film-scrap video { height:180px; }.film-scrap figcaption { display:block; padding:8px 2px; }.film-scrap figcaption>span { font-size:19px; display:block; }.film-scrap figcaption a { display:block; font-size:8px; }
+ .film-scrap::before { width:40px; height:17px; top:-10px; left:28%; }.film-rank { top:12px; left:9px; font-size:6px; letter-spacing:.4px; }.film-credit { font-size:9px; line-height:1.5; }
+ .music-scrap { grid-template-columns:1fr; padding:0 4%; gap:13px; }.music-scrap>.section-label { margin-bottom:0; }.mixtape { width:230px; padding:9px 14px; margin:auto; }.mixtape>.handwritten { font-size:20px; padding:3px; }.tape-window { margin:5px auto; }.tape-window i { width:29px; height:29px; border-width:5px; margin:4px; }.music-equalizer { height:16px; margin-bottom:4px; }.music-equalizer i { height:14px; }.mixtape small { font-size:6px; }
+ .music-scrap h3 { font-size:22px; margin-bottom:10px; }.artist-links { gap:2px 14px; }.artist-links a { font-size:11px; }.music-hint { font-size:9px; margin-top:7px; }
+ .frida-intro { display:block; margin-bottom:16px; }.frida-intro .handwritten { font-size:27px; }.frida-memories { padding:0; gap:10px; }.frida-memory { padding:4px 4px 8px; }.frida-memory img { height:180px; }.frida-memory figcaption { font-size:19px; line-height:1.1; }
+ .everyday-notes { gap:9px 18px; font-size:10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .curiosity-rail { scroll-behavior:auto; }.tape-window i,.music-equalizer i { animation:none; }
 }
