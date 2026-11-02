@@ -38,10 +38,6 @@
   stroke-dasharray: 12 88;
   animation: neon-orbit 14s linear infinite;
 }
-.neon-spark, .neon-flourish { stroke-width: 2; }
-.neon-spark { transform-box: fill-box; transform-origin: center; }
-.neon-spark-one { animation: neon-float 7s ease-in-out infinite; }
-.neon-spark-two { animation: neon-float 9s -3s ease-in-out infinite reverse; }
 .hero h1 em {
   color: var(--neon-ink);
   text-shadow: 0 0 22px #f16cb63b;
@@ -73,11 +69,9 @@
 [data-theme="dark"] .hero-neon-art { filter: drop-shadow(0 0 4px #ff62b7) drop-shadow(0 0 12px #f037a16b); }
 [data-theme="dark"] .hero .portrait { box-shadow: 0 18px 45px #0005, 0 0 50px #f44da12b; }
 @keyframes neon-orbit { to { stroke-dashoffset: -100; } }
-@keyframes neon-float { 50% { transform: translateY(-10px) rotate(12deg); } }
 @media (max-width: 700px) {
   .hero-stage > .note-left { position: absolute; }
   .hero-neon-art { width: 180%; left: -40%; top: -5%; height: 85%; }
-  .neon-flourish, .neon-spark-two { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-neon-art * { animation: none; }

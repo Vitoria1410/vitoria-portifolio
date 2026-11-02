@@ -33,6 +33,7 @@
   let width = 1, height = 1, frame = null, visible = false, paused = false;
   let progress = 0, lastFrame = 0, clock = 0;
   const pointer = { x: -1000, y: -1000 };
+  const ripples = [];
   let seed = 2107;
   function random() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
   const clamp = value => Math.max(0, Math.min(1, value));
@@ -70,10 +71,10 @@
   }
   let particleIndex=0;
   const butterflies = [
-    {size:1,phase:0,points:mobile.matches?1100:2200},
-    {size:.46,phase:2.3,points:mobile.matches?450:900},
-    {size:.32,phase:4.6,points:mobile.matches?240:450}
-  ].map(b=>({...b,particles:Array.from({length:b.points},()=>({...wingPoint(),index:particleIndex++,phase:random()*Math.PI*2,size:.5+random()*.9,alpha:.45+random()*.5,tint:random(),dx:0,dy:0,vx:0,vy:0,energy:0}))}));
+    {size:1,phase:0,points:mobile.matches?1800:3600},
+    {size:.46,phase:2.3,points:mobile.matches?720:1450},
+    {size:.32,phase:4.6,points:mobile.matches?380:750}
+  ].map(b=>({...b,particles:Array.from({length:b.points},()=>({...wingPoint(),index:particleIndex++,phase:random()*Math.PI*2,size:.5+random()*.9,alpha:.45+random()*.5,tint:random(),dx:0,dy:0,vx:0,vy:0,energy:0,bx:0,by:0,bvx:0,bvy:0,glow:0}))}));
   const textParticleCount=butterflies[0].points+butterflies[1].points;
   const title=section.querySelector('#daydream-title');
   let textTargets=[];
@@ -111,7 +112,7 @@
     progressBar.style.transform = `scaleX(${progress})`;
     layout.style.setProperty('--title-opacity', String(smooth(clamp((progress-.67)/.18))));
     layout.style.setProperty('--story-opacity', String(smooth(clamp((progress-.79)/.16))));
-    caption.textContent = progress < .2 ? '01 / DEIXAR A CURIOSIDADE VOAR' : progress < .72 ? '02 / IDEIAS QUE VIRAM PALAVRAS' : '03 / SEGUIR O QUE ME MOVE';
+    caption.textContent = progress < .2 ? (reduced.matches ? '01 / DEIXAR A CURIOSIDADE VOAR' : '01 / CLIQUE OU TOQUE PARA ESPALHAR') : progress < .72 ? '02 / IDEIAS QUE VIRAM PALAVRAS' : '03 / SEGUIR O QUE ME MOVE';
   }
   function render(time) {
     frame = null;
@@ -126,6 +127,9 @@
     const titleRect=title.getBoundingClientRect(),canvasRect=canvas.getBoundingClientRect();
     const morph=smooth(clamp((progress-.2)/.44));
     const textFade=1-smooth(clamp((progress-.72)/.16));
+    // Advance a wavefront once per frame; each particle receives one impulse
+    // as the ring reaches it, rather than being pushed on every frame.
+    if(moving)for(const wave of ripples){wave.previous=wave.radius;wave.radius=(clock-wave.born)*650;}
     // Smaller butterflies are painted first, adding depth without a heavy 3D library.
     for(let index=butterflies.length-1;index>=0;index--){
       const b=butterflies[index],t=clock;
@@ -153,6 +157,20 @@
           y=y*(1-morph)+ty*morph+Math.sin(p.phase+morph*5)*swirl;
         }
         if(moving){
+          for(const wave of ripples){
+            const wx=x+p.bx-wave.x,wy=y+p.by-wave.y,distance=Math.hypot(wx,wy);
+            if(!wave.hits.has(p.index)&&distance>wave.previous&&distance<=wave.radius){
+              wave.hits.add(p.index);
+              const strength=(22+14*Math.sin(p.phase)**2)*Math.max(.2,1-distance/Math.max(width,height));
+              const angle=Math.atan2(wy,wx)+Math.sin(p.phase)*.35;
+              p.bvx+=Math.cos(angle)*strength;p.bvy+=Math.sin(angle)*strength;
+              p.glow=1;
+            }
+          }
+          // A softer spring gives the fragments time to drift before reforming.
+          p.bvx=(p.bvx-p.bx*.008*dt)*Math.pow(.94,dt);
+          p.bvy=(p.bvy-p.by*.008*dt)*Math.pow(.94,dt);
+          p.bx+=p.bvx*dt;p.by+=p.bvy*dt;p.glow*=Math.pow(.96,dt);
           const dx=x-pointer.x,dy=y-pointer.y,d=Math.hypot(dx,dy),influence=clamp(1-d/135);
           const push=Math.pow(influence,1.8)*(24+(Math.sin(p.phase)+1)*16);
           const angle=Math.atan2(dy,dx)+Math.sin(p.phase)*influence*.75;
@@ -162,20 +180,21 @@
           p.dx+=p.vx*dt;p.dy+=p.vy*dt;
           p.energy+=(influence-p.energy)*(influence>p.energy?.32:.08)*dt;
         }
-        x+=p.dx;y+=p.dy;
+        x+=p.dx+p.bx;y+=p.dy+p.by;
+        const energy=Math.max(p.energy,p.glow);
         const shimmer=moving?.78+Math.sin(t*1.4+p.phase)*.22:1;
         const fade=index<2?textFade:1;
-        const alpha=Math.min(1,p.alpha*shimmer*(p.edge?1:.75)+p.energy*.65)*fade;
+        const alpha=Math.min(1,p.alpha*shimmer*(p.edge?1:.75)+energy*.65)*fade;
         const tint=p.eye||p.tint<.15?2:p.edge?0:1;
-        const radius=(p.size+(p.edge?.35:0))*Math.max(.8,b.size)*perspective*(1+p.energy*.9);
+        const radius=(p.size+(p.edge?.35:0))*Math.max(.8,b.size)*perspective*(1+energy*.9);
         context.globalAlpha=alpha;
         context.drawImage(sprites[tint+(dark?0:3)],x-radius*3,y-radius*3,radius*6,radius*6);
-        if(p.energy>.015&&fade>.01){
+        if(energy>.015&&fade>.01){
           context.globalCompositeOperation=dark?'lighter':'source-over';
-          context.globalAlpha=p.energy*.26*fade;
-          const halo=radius*(10+p.energy*9);
+          context.globalAlpha=energy*.26*fade;
+          const halo=radius*(10+energy*9);
           context.drawImage(sprites[1],x-halo/2,y-halo/2,halo,halo);
-          context.globalAlpha=Math.min(1,p.energy*1.15)*fade;
+          context.globalAlpha=Math.min(1,energy*1.15)*fade;
           context.drawImage(sprites[0],x-radius*2,y-radius*2,radius*4,radius*4);
           context.globalCompositeOperation='source-over';
         }
@@ -186,6 +205,7 @@
       context.globalAlpha=.15+Math.sin(clock+p.phase)**2*.3;
       context.drawImage(sprites[dark?1:4],x-3,y-3,6*p.size,6*p.size);
     }
+    if(moving)for(let i=ripples.length-1;i>=0;i--)if(ripples[i].radius>Math.hypot(width,height)+400)ripples.splice(i,1);
     context.globalAlpha=1;if(moving)schedule();
   }
   function schedule(){if(frame===null&&visible&&!document.hidden)frame=requestAnimationFrame(render);}
@@ -193,6 +213,13 @@
   toggle.addEventListener('click',()=>{paused=!paused;toggle.setAttribute('aria-pressed',String(paused));toggle.textContent=paused?'retomar movimento ▷':'pausar movimento ⏸';schedule();});
   canvas.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=canvas.getBoundingClientRect();pointer.x=e.clientX-r.left;pointer.y=e.clientY-r.top;});
   canvas.addEventListener('pointerleave',()=>{pointer.x=pointer.y=-1000;});
+  canvas.addEventListener('pointerdown',e=>{
+    if(paused||reduced.matches||(e.pointerType==='mouse'&&e.button!==0))return;
+    const r=canvas.getBoundingClientRect();
+    ripples.push({x:e.clientX-r.left,y:e.clientY-r.top,born:clock,radius:-1,previous:-1,hits:new Set()});
+    if(ripples.length>5)ripples.shift();
+    schedule();
+  });
   addEventListener('scroll',()=>{if(visible){updateProgress();schedule();}},{passive:true});
   addEventListener('resize',resize,{passive:true});
   document.addEventListener('visibilitychange',()=>{lastFrame=0;schedule();});
