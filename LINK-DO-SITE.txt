@@ -1,0 +1,6 @@
+LINK PÚBLICO DO PORTFÓLIO
+
+https://vitoria-portifolio-52m7.vercel.app/
+
+Copie esse endereço para enviar ao professor ou a qualquer pessoa.
+Quem receber pode acessar pelo navegador, sem baixar o repositório.

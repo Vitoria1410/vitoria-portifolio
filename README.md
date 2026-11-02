@@ -1,5 +1,9 @@
 # Vitoria Barreto Sousa — Portfólio
 
+**Acesse o site público:** [Abrir portfólio](https://vitoria-portifolio-52m7.vercel.app/)
+
+O endereço também está no arquivo [LINK-DO-SITE.txt](LINK-DO-SITE.txt), pronto para copiar e compartilhar.
+
 Site pessoal e portfólio de **Vitoria Barreto Sousa**, estudante do curso técnico em **Inteligência Artificial no Colégio FECAP**, atleta de voleibol e desenhista/ilustradora.
 
 Construído com fidelidade absoluta ao **Duckbill Design System**.

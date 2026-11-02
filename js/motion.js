@@ -76,7 +76,7 @@
     {size:1,phase:0,points:mobile.matches?1500:3000},
     {size:.46,phase:2.3,points:mobile.matches?550:1100},
     {size:.32,phase:4.6,points:mobile.matches?280:550}
-  ].map(b=>({...b,particles:Array.from({length:b.points},()=>({...wingPoint(),index:particleIndex++,phase:random()*Math.PI*2,size:.5+random()*.9,alpha:.45+random()*.5,tint:random(),dx:0,dy:0,vx:0,vy:0,energy:0,bx:0,by:0,bvx:0,bvy:0,glow:0}))}));
+  ].map(b=>({...b,particles:Array.from({length:b.points},()=>({...wingPoint(),index:particleIndex++,phase:random()*Math.PI*2,size:.5+random()*.9,alpha:.45+random()*.5,tint:random(),dx:0,dy:0,vx:0,vy:0,energy:0,bx:0,by:0,bvx:0,bvy:0,glow:0,fadeStart:-100,fadeAmount:0,dissolve:0}))}));
   const textParticleCount=butterflies[0].points+butterflies[1].points;
   const title=section.querySelector('#daydream-title');
   let textTargets=[];
@@ -171,16 +171,24 @@
             const wx=x+p.bx-wave.x,wy=y+p.by-wave.y,distance=Math.hypot(wx,wy);
             if(!wave.hits.has(p.index)&&distance>wave.previous&&distance<=wave.radius&&distance<wave.limit){
               wave.hits.add(p.index);
-              const strength=(5+3*Math.sin(p.phase)**2)*(1-distance/wave.limit);
+              const strength=(1.5+Math.sin(p.phase)**2)*(1-distance/wave.limit);
               const angle=Math.atan2(wy,wx)+Math.sin(p.phase)*.35;
               p.bvx+=Math.cos(angle)*strength;p.bvy+=Math.sin(angle)*strength;
-              p.glow=1;
+              p.glow=Math.max(p.glow,.25);
+              p.fadeStart=clock;
+              p.fadeAmount=.9*(.45+.55*(1-distance/wave.limit));
             }
           }
           // A softer spring gives the fragments time to drift before reforming.
           p.bvx=(p.bvx-p.bx*.018*dt)*Math.pow(.86,dt);
           p.bvy=(p.bvy-p.by*.018*dt)*Math.pow(.86,dt);
           p.bx+=p.bvx*dt;p.by+=p.bvy*dt;p.glow*=Math.pow(.96,dt);
+          // The click dissolves locally, then restores the points gradually.
+          // Smooth the envelope too, so repeated clicks never flash back on.
+          const age=clock-p.fadeStart;
+          const envelope=age<.24?smooth(clamp(age/.24)):1-smooth(clamp((age-.24)/1.15));
+          const targetFade=p.fadeAmount*envelope;
+          p.dissolve+=(targetFade-p.dissolve)*Math.min(1,(targetFade>p.dissolve?.28:.12)*dt);
           const dx=x-pointer.x,dy=y-pointer.y,d=Math.hypot(dx,dy);
           let influence=clamp(1-d/105);
           for(const point of wake){
@@ -199,7 +207,7 @@
         x+=p.dx+p.bx;y+=p.dy+p.by;
         const energy=Math.max(p.energy,p.glow);
         const shimmer=moving?.78+Math.sin(t*1.4+p.phase)*.22:1;
-        const fade=index<2?textFade:1;
+        const fade=(index<2?textFade:1)*(1-p.dissolve);
         const alpha=Math.min(1,p.alpha*shimmer*(p.edge?1:.75)+energy*.65)*fade;
         const tint=p.eye||p.tint<.15?2:p.edge?0:1;
         const radius=(p.size+(p.edge?.35:0))*Math.max(.8,b.size)*perspective*(1+energy*.25);
