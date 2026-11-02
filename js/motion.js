@@ -40,13 +40,14 @@
   function random() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
   const clamp = value => Math.max(0, Math.min(1, value));
   const smooth = value => value * value * (3 - 2 * value);
-  // A swallowtail silhouette: swept forewings, scalloped hindwings and two tails.
-  const wingBoundary = [{ x: .015, y: -.42 }];
+  // Side profile: one broad near wing and a narrow far wing behind the body.
+  const wingBoundary = [{ x: .015, y: .28 }];
   const curves = [
-    [.17,-.59,.57,-.78,.78,-.65], [.81,-.27,.64,-.05,.43,.08],
-    [.64,.18,.58,.39,.4,.49], [.36,.65,.34,.83,.28,.94],
-    [.25,.75,.23,.58,.19,.49], [.07,.5,.015,.31,.015,.12],
-    [.005,-.08,.01,-.28,.015,-.42]
+    [.15,-.12,.54,-.94,.84,-1.02], [.98,-1.04,.9,-.75,.84,-.64],
+    [.89,-.55,.83,-.44,.78,-.4], [.83,-.3,.74,-.17,.69,-.14],
+    [.73,-.03,.62,.12,.56,.19], [.69,.16,.84,.24,.88,.35],
+    [.92,.49,.81,.67,.7,.72], [.77,.81,.93,.78,.99,.84],
+    [.8,.9,.67,.79,.59,.86], [.38,.96,.12,.66,.015,.28]
   ];
   for (const c of curves) {
     const start = wingBoundary[wingBoundary.length-1];
@@ -64,12 +65,12 @@
     return inside;
   }
   function wingPoint() {
-    const side = random()<.5?-1:1,type=random();
-    if(type<.07)return{x:(random()-.5)*.035,y:random()*1.03-.43,side:0,edge:true};
-    if(type<.1){const t=random();return{x:side*(.016+Math.sin(t*1.8)*.13),y:-.44-t*.23,side:0,edge:true};}
-    let x,y;do{x=random()*.81;y=random()*1.72-.78;}while(!insideWing(x,y));
-    const edge=wingBoundary.some(p=>Math.hypot(p.x-x,p.y-y)<.025)||Math.abs(Math.sin(Math.atan2(y+.1,x)*9))<.11;
-    return{x:side*x,y,side,edge,eye:Math.abs(Math.hypot(x-.39,y-.29)-.06)<.023};
+    const side = random()<.75?-1:1,type=random();
+    if(type<.07){const t=random();return{x:.04+t*.18+(random()-.5)*.025,y:.52-t*.42,side:0,edge:true};}
+    if(type<.1){const t=random(),branch=random()<.5?-1:1;return{x:.22+t*.14+branch*Math.sin(t*1.6)*.055,y:.1-t*.4,side:0,edge:true};}
+    let x,y;do{x=random();y=random()*2.02-1.08;}while(!insideWing(x,y));
+    const edge=wingBoundary.some(p=>Math.hypot(p.x-x,p.y-y)<.025)||Math.abs(Math.sin(Math.atan2(y-.24,x)*9))<.11;
+    return{x:side*x,y,side,edge,eye:Math.abs(Math.hypot(x-.48,y+.3)-.07)<.023};
   }
   let particleIndex=0;
   const butterflies = [
@@ -145,20 +146,19 @@
       const b=butterflies[index],t=clock;
       let cx,cy;
       if(index===0){cx=width*(mobile.matches?.56:.62)+Math.sin(t*.34)*width*.045;cy=height*(mobile.matches?.72:.46)+Math.cos(t*.41)*height*.06;}
-      else if(index===1){cx=width*(mobile.matches?.19:.23+align*.35)+Math.sin(t*.25+b.phase)*width*.07;cy=height*(mobile.matches?.48:.23)+Math.cos(t*.3+b.phase)*height*.055;}
-      else{cx=width*(mobile.matches?.85:.83)+Math.sin(t*.3+b.phase)*width*.06;cy=height*(mobile.matches?.78:.84)+Math.cos(t*.25+b.phase)*height*.04;}
+      else if(index===1){cx=width*(mobile.matches?.19:.23+align*.35)+Math.sin(t*.25+b.phase)*width*.07;cy=height*(mobile.matches?.48:.3)+Math.cos(t*.3+b.phase)*height*.055;}
+      else{cx=width*(mobile.matches?.85:.83)+Math.sin(t*.3+b.phase)*width*.06;cy=height*(mobile.matches?.78:.77)+Math.cos(t*.25+b.phase)*height*.04;}
       const scale=Math.min(width*(mobile.matches?.42:.22),height*.64)*b.size;
-      const flap=.45+Math.sin(t*3.8+b.phase)*.65;
-      const yaw=Math.sin(t*.4+b.phase)*.34;
-      const roll=Math.sin(t*.32+b.phase)*.18+(index===0?-.12:.22);
-      const cr=Math.cos(roll),sr=Math.sin(roll),cyaw=Math.cos(yaw),syaw=Math.sin(yaw),cf=Math.cos(flap),sf=Math.sin(flap);
+      const flap=Math.sin(t*3.1+b.phase);
+      const roll=Math.sin(t*.32+b.phase)*.08-.1;
+      const cr=Math.cos(roll),sr=Math.sin(roll);
       for(const p of b.particles){
-        const wx=p.side?p.x*cf:p.x;
-        const z=p.side?Math.abs(p.x)*sf:0;
-        const rx=wx*cyaw+z*syaw,rz=z*cyaw-wx*syaw;
+        const near=p.side===-1,far=p.side===1;
+        const rx=near?.12-Math.abs(p.x)*(.9+flap*.1):far?.15+Math.abs(p.x)*(.25-flap*.07):p.x;
+        const rz=near?.06+Math.abs(p.x)*flap*.08:far?-.2:0;
         const perspective=1/(1-rz*.4);
         let x=cx+(rx*cr-p.y*sr)*scale*perspective;
-        let y=cy+(rx*sr+p.y*cr)*scale*perspective;
+        let y=cy+(rx*sr+(p.y-(far?.09:0))*cr)*scale*perspective;
         if(index<2&&textTargets.length){
           const target=textTargets[Math.min(textTargets.length-1,Math.floor(p.index/textParticleCount*textTargets.length))];
           const tx=titleRect.left-canvasRect.left+target.x,ty=titleRect.top-canvasRect.top+target.y;
