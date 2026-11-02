@@ -32,6 +32,7 @@
   const mobile = matchMedia('(max-width: 700px)');
   let width = 1, height = 1, frame = null, visible = false, paused = false;
   let progress = 0, lastFrame = 0, clock = 0;
+  let frameInterval=16,averageRenderCost=0;
   const pointer = { x: -1000, y: -1000 };
   const ripples = [];
   let seed = 2107;
@@ -71,9 +72,9 @@
   }
   let particleIndex=0;
   const butterflies = [
-    {size:1,phase:0,points:mobile.matches?1800:3600},
-    {size:.46,phase:2.3,points:mobile.matches?720:1450},
-    {size:.32,phase:4.6,points:mobile.matches?380:750}
+    {size:1,phase:0,points:mobile.matches?1500:3000},
+    {size:.46,phase:2.3,points:mobile.matches?550:1100},
+    {size:.32,phase:4.6,points:mobile.matches?280:550}
   ].map(b=>({...b,particles:Array.from({length:b.points},()=>({...wingPoint(),index:particleIndex++,phase:random()*Math.PI*2,size:.5+random()*.9,alpha:.45+random()*.5,tint:random(),dx:0,dy:0,vx:0,vy:0,energy:0,bx:0,by:0,bvx:0,bvy:0,glow:0}))}));
   const textParticleCount=butterflies[0].points+butterflies[1].points;
   const title=section.querySelector('#daydream-title');
@@ -102,6 +103,14 @@
     g.addColorStop(0,color);g.addColorStop(.2,color);g.addColorStop(.5,color+'88');g.addColorStop(1,color+'00');
     c.fillStyle=g;c.fillRect(0,0,24,24);return tile;
   });
+  // Bake the highlight into reusable sprites: one draw per particle, even
+  // during interaction, instead of several overlapping glow layers.
+  const litSprites=sprites.map((sprite,index)=>{
+    const tile=document.createElement('canvas');tile.width=tile.height=24;
+    const c=tile.getContext('2d');c.drawImage(sprite,0,0);
+    c.globalAlpha=.65;c.drawImage(sprites[index<3?0:4],5,5,14,14);
+    return tile;
+  });
   function updateProgress() {
     const rect = section.getBoundingClientRect();
     progress = reduced.matches ? 1 : clamp(-rect.top / Math.max(1,section.offsetHeight-innerHeight));
@@ -118,7 +127,8 @@
     frame = null;
     if (!visible || document.hidden) {lastFrame=0;return;}
     const moving = !paused && !reduced.matches;
-    if (moving && time-lastFrame < 32) {schedule();return;}
+    if (moving && time-lastFrame < frameInterval) {schedule();return;}
+    const renderStart=Date.now();
     if (moving) clock += Math.min(time-(lastFrame||time),64)/1000;
     const dt=Math.min(2,Math.max(.5,(time-(lastFrame||time-33))/33));
     lastFrame=time;context.clearRect(0,0,width,height);
@@ -129,7 +139,7 @@
     const textFade=1-smooth(clamp((progress-.72)/.16));
     // Advance a wavefront once per frame; each particle receives one impulse
     // as the ring reaches it, rather than being pushed on every frame.
-    if(moving)for(const wave of ripples){wave.previous=wave.radius;wave.radius=(clock-wave.born)*650;}
+    if(moving)for(const wave of ripples){wave.previous=wave.radius;wave.radius=Math.min(wave.limit,(clock-wave.born)*380);}
     // Smaller butterflies are painted first, adding depth without a heavy 3D library.
     for(let index=butterflies.length-1;index>=0;index--){
       const b=butterflies[index],t=clock;
@@ -159,20 +169,20 @@
         if(moving){
           for(const wave of ripples){
             const wx=x+p.bx-wave.x,wy=y+p.by-wave.y,distance=Math.hypot(wx,wy);
-            if(!wave.hits.has(p.index)&&distance>wave.previous&&distance<=wave.radius){
+            if(!wave.hits.has(p.index)&&distance>wave.previous&&distance<=wave.radius&&distance<wave.limit){
               wave.hits.add(p.index);
-              const strength=(22+14*Math.sin(p.phase)**2)*Math.max(.2,1-distance/Math.max(width,height));
+              const strength=(6+3*Math.sin(p.phase)**2)*(1-distance/wave.limit);
               const angle=Math.atan2(wy,wx)+Math.sin(p.phase)*.35;
               p.bvx+=Math.cos(angle)*strength;p.bvy+=Math.sin(angle)*strength;
-              p.glow=1;
+              p.glow=.65;
             }
           }
           // A softer spring gives the fragments time to drift before reforming.
-          p.bvx=(p.bvx-p.bx*.008*dt)*Math.pow(.94,dt);
-          p.bvy=(p.bvy-p.by*.008*dt)*Math.pow(.94,dt);
+          p.bvx=(p.bvx-p.bx*.018*dt)*Math.pow(.86,dt);
+          p.bvy=(p.bvy-p.by*.018*dt)*Math.pow(.86,dt);
           p.bx+=p.bvx*dt;p.by+=p.bvy*dt;p.glow*=Math.pow(.96,dt);
-          const dx=x-pointer.x,dy=y-pointer.y,d=Math.hypot(dx,dy),influence=clamp(1-d/135);
-          const push=Math.pow(influence,1.8)*(24+(Math.sin(p.phase)+1)*16);
+          const dx=x-pointer.x,dy=y-pointer.y,d=Math.hypot(dx,dy),influence=clamp(1-d/100);
+          const push=Math.pow(influence,1.8)*(9+(Math.sin(p.phase)+1)*5);
           const angle=Math.atan2(dy,dx)+Math.sin(p.phase)*influence*.75;
           const tx=Math.cos(angle)*push,ty=Math.sin(angle)*push;
           p.vx=(p.vx+(tx-p.dx)*.12*dt)*Math.pow(.74,dt);
@@ -186,18 +196,9 @@
         const fade=index<2?textFade:1;
         const alpha=Math.min(1,p.alpha*shimmer*(p.edge?1:.75)+energy*.65)*fade;
         const tint=p.eye||p.tint<.15?2:p.edge?0:1;
-        const radius=(p.size+(p.edge?.35:0))*Math.max(.8,b.size)*perspective*(1+energy*.9);
+        const radius=(p.size+(p.edge?.35:0))*Math.max(.8,b.size)*perspective*(1+energy*.25);
         context.globalAlpha=alpha;
-        context.drawImage(sprites[tint+(dark?0:3)],x-radius*3,y-radius*3,radius*6,radius*6);
-        if(energy>.015&&fade>.01){
-          context.globalCompositeOperation=dark?'lighter':'source-over';
-          context.globalAlpha=energy*.26*fade;
-          const halo=radius*(10+energy*9);
-          context.drawImage(sprites[1],x-halo/2,y-halo/2,halo,halo);
-          context.globalAlpha=Math.min(1,energy*1.15)*fade;
-          context.drawImage(sprites[0],x-radius*2,y-radius*2,radius*4,radius*4);
-          context.globalCompositeOperation='source-over';
-        }
+        context.drawImage((energy>.18?litSprites:sprites)[tint+(dark?0:3)],x-radius*3,y-radius*3,radius*6,radius*6);
       }
     }
     for(const p of sparkles){
@@ -205,19 +206,22 @@
       context.globalAlpha=.15+Math.sin(clock+p.phase)**2*.3;
       context.drawImage(sprites[dark?1:4],x-3,y-3,6*p.size,6*p.size);
     }
-    if(moving)for(let i=ripples.length-1;i>=0;i--)if(ripples[i].radius>Math.hypot(width,height)+400)ripples.splice(i,1);
+    if(moving)for(let i=ripples.length-1;i>=0;i--)if(ripples[i].radius>=ripples[i].limit)ripples.splice(i,1);
+    averageRenderCost=averageRenderCost*.9+(Date.now()-renderStart)*.1;
+    if(averageRenderCost>18)frameInterval=32;
+    else if(averageRenderCost<12)frameInterval=16;
     context.globalAlpha=1;if(moving)schedule();
   }
   function schedule(){if(frame===null&&visible&&!document.hidden)frame=requestAnimationFrame(render);}
-  function resize(){const rect=canvas.getBoundingClientRect();width=Math.max(1,rect.width);height=Math.max(1,rect.height);const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);context.setTransform(dpr,0,0,dpr,0,0);updateProgress();sampleTitle();schedule();}
+  function resize(){const rect=canvas.getBoundingClientRect();width=Math.max(1,rect.width);height=Math.max(1,rect.height);const dpr=Math.min(devicePixelRatio||1,mobile.matches?1.25:1.5);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);context.setTransform(dpr,0,0,dpr,0,0);updateProgress();sampleTitle();schedule();}
   toggle.addEventListener('click',()=>{paused=!paused;toggle.setAttribute('aria-pressed',String(paused));toggle.textContent=paused?'retomar movimento ▷':'pausar movimento ⏸';schedule();});
   canvas.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=canvas.getBoundingClientRect();pointer.x=e.clientX-r.left;pointer.y=e.clientY-r.top;});
   canvas.addEventListener('pointerleave',()=>{pointer.x=pointer.y=-1000;});
   canvas.addEventListener('pointerdown',e=>{
     if(paused||reduced.matches||(e.pointerType==='mouse'&&e.button!==0))return;
     const r=canvas.getBoundingClientRect();
-    ripples.push({x:e.clientX-r.left,y:e.clientY-r.top,born:clock,radius:-1,previous:-1,hits:new Set()});
-    if(ripples.length>5)ripples.shift();
+    ripples.push({x:e.clientX-r.left,y:e.clientY-r.top,born:clock,radius:-1,previous:-1,limit:mobile.matches?160:220,hits:new Set()});
+    if(ripples.length>3)ripples.shift();
     schedule();
   });
   addEventListener('scroll',()=>{if(visible){updateProgress();schedule();}},{passive:true});

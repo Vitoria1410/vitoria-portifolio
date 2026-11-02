@@ -1,0 +1,52 @@
+.universe { overflow: hidden; }
+.universe-toolbar { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:35px; }
+.universe-toolbar .handwritten { color:#a94479; transform:rotate(-3deg); }
+.universe-toolbar button { padding:6px 0; font-size:11px; background:none; border-bottom:1px solid var(--line); }
+.universe-board { display:grid; grid-template-columns:1.15fr 1fr; gap:35px 7%; align-items:start; }
+.film-scrap { position:relative; margin:0; padding:12px 12px 0; background:#fff9ef; color:#252521; box-shadow:0 15px 35px #00000016; }
+.film-scrap::before { content:''; position:absolute; z-index:1; top:-14px; left:39%; width:90px; height:27px; background:#e4b9c3a8; transform:rotate(-7deg); pointer-events:none; }
+.film-scrap video { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:#26352f; }
+.film-scrap figcaption { align-items:center; padding:12px 5px 15px; margin:0; letter-spacing:0; }
+.film-scrap figcaption>span { font-family:var(--hand); font-size:28px; line-height:1.1; }
+.film-scrap figcaption a { font-size:9px; white-space:nowrap; padding:8px 0 8px 8px; }
+.film-rank { position:absolute; z-index:1; top:28px; left:28px; color:#fff; font-size:9px; letter-spacing:1.4px; text-shadow:0 1px 8px #000; }
+.film-favorite { grid-row:span 2; transform:rotate(-3deg); margin-top:20px; }
+.film-favorite video { aspect-ratio:4/4.2; }
+.film-train { transform:rotate(3deg); }
+.film-flowers { transform:rotate(-2deg); margin-left:8%; }
+.film-annotation { position:absolute; bottom:-45px; left:10%; color:var(--ink); font-size:26px; transform:rotate(-2deg); }
+.music-scrap { margin-top:70px; padding:0 5%; transform:rotate(1deg); }
+.music-scrap .section-label { display:block; margin-bottom:20px; }
+.mixtape { max-width:380px; padding:18px 24px 12px; border-radius:14px; background:#28252c; border:2px solid #66515e; box-shadow:6px 9px 0 #00000016; color:#f4e7ee; }
+.mixtape>.handwritten { display:block; background:#edb7d0; color:#30232c; border-radius:4px; padding:7px 8px; font-size:25px; text-align:center; }
+.tape-window { margin:13px auto; display:flex; align-items:center; justify-content:space-around; border:1px solid #8e7584; border-radius:25px; max-width:230px; background:#17151b; }
+.tape-window i { width:37px; height:37px; border:6px dashed #d7cdd3; border-radius:50%; margin:6px; }
+.tape-window>span { font-size:21px; color:#ec9dc3; }
+.mixtape small { display:block; font-size:8px; letter-spacing:3px; text-align:center; }
+.music-scrap h3 { font-family:var(--serif); font-size:29px; font-weight:500; line-height:1.2; margin:28px 0 20px; }
+.music-scrap h3 em { font-family:var(--hand); color:#a94479; font-size:1.2em; }
+.artist-links { display:flex; gap:8px 17px; flex-wrap:wrap; }
+.artist-links a { font-size:12px; border-bottom:1px solid var(--line); padding:5px 0; }
+.artist-links a:hover { color:#b52270; }
+.music-hint,.film-credit { font-size:10px; color:var(--muted); }
+.music-hint { margin-top:14px; }
+.universe-notes { margin:85px 8% 0; padding:25px 0; border-top:1px solid var(--line); }
+.universe-notes>.handwritten { display:block; font-size:32px; margin-bottom:22px; transform:rotate(-4deg); }
+.universe-notes>a { display:block; width:fit-content; font-family:var(--hand); font-size:27px; padding:5px 0; }
+.universe-notes p { margin-top:25px; font-size:13px; line-height:1.9; }
+.film-credit { margin-top:45px; text-align:center; }
+[data-theme="dark"] :is(.universe-toolbar .handwritten,.music-scrap h3 em) { color:#eeb2d0; }
+[data-theme="dark"] .film-scrap { background:#342e37; color:#f3ebef; box-shadow:0 15px 35px #0003; }
+@media(max-width:700px) {
+ .universe-toolbar { align-items:start; }.universe-toolbar .handwritten { font-size:25px; max-width:200px; }
+ .universe-toolbar button { flex-shrink:0; font-size:9px; }
+ .universe-board { gap:30px 5%; }.film-scrap { padding:6px 6px 0; }
+ .film-favorite { grid-column:1/-1; grid-row:auto; width:85%; margin:10px auto 35px; }
+ .film-favorite video { aspect-ratio:4/3; }.film-annotation { font-size:23px; bottom:-38px; }
+ .film-scrap figcaption>span { font-size:22px; }.film-scrap figcaption { flex-wrap:wrap; padding:10px 3px; gap:3px; }
+ .film-rank { top:17px; left:15px; font-size:7px; letter-spacing:.8px; }
+ .film-scrap::before { width:60px; height:20px; top:-11px; }
+ .film-flowers { margin-left:0; }.film-train video,.film-flowers video { aspect-ratio:1; }
+ .music-scrap { grid-column:1/-1; margin-top:20px; padding:0 3%; }.mixtape { margin:auto; }
+ .universe-notes { grid-column:1/-1; margin:10px 4% 0; }.film-credit { line-height:1.8; }
+}
