@@ -97,7 +97,7 @@
     textTargets=targets;
   }
   const sparkles = Array.from({ length: mobile.matches ? 35 : 75 }, () => ({ x: random(), y: random(), phase: random() * Math.PI * 2, size: .4 + random() * .9 }));
-  const sprites = ['#fff1fb','#f4a8d4','#b6d7ef','#8d446f','#b75e8b','#537b96'].map(color => {
+  const sprites = ['#fff1fb','#f4a8d4','#b6d7ef','#8d446f','#b75e8b','#537b96','#ffe8a5','#b3ffe2'].map(color => {
     const tile = document.createElement('canvas'); tile.width = tile.height = 24;
     const c = tile.getContext('2d'), g = c.createRadialGradient(12,12,0,12,12,12);
     g.addColorStop(0,color);g.addColorStop(.2,color);g.addColorStop(.5,color+'88');g.addColorStop(1,color+'00');
@@ -117,6 +117,8 @@
   function updateProgress() {
     const rect = section.getBoundingClientRect();
     progress = reduced.matches ? 1 : clamp(-rect.top / Math.max(1,section.offsetHeight-innerHeight));
+    section.style?.setProperty('--forest-shift',`${progress*32}px`);
+    section.style?.setProperty('--forest-scale',String(1.08-progress*.04));
     const align = smooth(clamp((progress - .72) / .28));
     layout.style.setProperty('--copy-left', `${mobile.matches ? 50 : 50 * (1-align)}%`);
     layout.style.setProperty('--copy-anchor', `${mobile.matches ? -50 : -50 * (1-align)}%`);
@@ -130,12 +132,13 @@
     frame = null;
     if (!visible || document.hidden) {lastFrame=0;return;}
     const moving = !paused && !reduced.matches;
+    section.style?.setProperty('--enchanted-play',moving?'running':'paused');
     if (moving && time-lastFrame < frameInterval) {schedule();return;}
     const renderStart=Date.now();
     if (moving) clock += Math.min(time-(lastFrame||time),64)/1000;
     const dt=Math.min(2,Math.max(.5,(time-(lastFrame||time-33))/33));
     lastFrame=time;context.clearRect(0,0,width,height);
-    const dark=document.documentElement.dataset.theme==='dark';
+    const dark=section.dataset?.palette==='forest'||document.documentElement.dataset.theme==='dark';
     const align=smooth(clamp((progress-.72)/.28));
     const titleRect=title.getBoundingClientRect(),canvasRect=canvas.getBoundingClientRect();
     const morph=smooth(clamp((progress-.2)/.44));
@@ -147,9 +150,9 @@
     for(let index=butterflies.length-1;index>=0;index--){
       const b=butterflies[index],t=clock;
       let cx,cy;
-      if(index===0){cx=width*(mobile.matches?.56:.72)+Math.sin(t*.34)*width*.045;cy=height*(mobile.matches?.72:.46)+Math.cos(t*.41)*height*.06;}
-      else if(index===1){cx=width*(mobile.matches?.19:.15+align*.35)+Math.sin(t*.25+b.phase)*width*.07;cy=height*(mobile.matches?.48:.23)+Math.cos(t*.3+b.phase)*height*.055;}
-      else{cx=width*(mobile.matches?.85:.88)+Math.sin(t*.3+b.phase)*width*.06;cy=height*(mobile.matches?.78:.84)+Math.cos(t*.25+b.phase)*height*.04;}
+      if(index===0){cx=width*(mobile.matches?.56:.62)+Math.sin(t*.34)*width*.045;cy=height*(mobile.matches?.72:.46)+Math.cos(t*.41)*height*.06;}
+      else if(index===1){cx=width*(mobile.matches?.19:.23+align*.35)+Math.sin(t*.25+b.phase)*width*.07;cy=height*(mobile.matches?.48:.23)+Math.cos(t*.3+b.phase)*height*.055;}
+      else{cx=width*(mobile.matches?.85:.83)+Math.sin(t*.3+b.phase)*width*.06;cy=height*(mobile.matches?.78:.84)+Math.cos(t*.25+b.phase)*height*.04;}
       const scale=Math.min(width*(mobile.matches?.42:.22),height*.64)*b.size;
       const flap=.45+Math.sin(t*3.8+b.phase)*.65;
       const yaw=Math.sin(t*.4+b.phase)*.34;
@@ -214,10 +217,25 @@
         }
       }
     }
-    for(const p of sparkles){
+    for(const [index,p] of sparkles.entries()){
       const x=p.x*width+Math.sin(clock*.3+p.phase)*12,y=((p.y-clock*.012)%1+1)%1*height;
-      context.globalAlpha=.15+Math.sin(clock+p.phase)**2*.3;
-      context.drawImage(sprites[dark?1:4],x-3,y-3,6*p.size,6*p.size);
+      const near=clamp(1-Math.hypot(x-pointer.x,y-pointer.y)/140);
+      context.globalAlpha=.25+Math.sin(clock+p.phase)**2*.5+near*.2;
+      const size=(8+near*12)*p.size;
+      context.drawImage(sprites[dark?6+index%2:4],x-size/2,y-size/2,size,size);
+    }
+    // A few tiny fairy lights leave curved dust trails through the clearing.
+    // They share this scene's render loop and stop with its pause control.
+    if(section.dataset?.palette==='forest'&&morph<.9){
+      for(let fairy=0;fairy<3;fairy++){
+        for(let tail=16;tail>=0;tail--){
+          const t=clock*.38+fairy*2.1-tail*.025;
+          const x=width*(.5+Math.cos(t)*.3),y=height*(.5+Math.sin(t*1.4)*.26);
+          const size=tail===0?20:3+(1-tail/17)*4;
+          context.globalAlpha=(1-morph)*(tail===0?.9:(1-tail/17)*.3);
+          context.drawImage(sprites[fairy%2?1:6],x-size/2,y-size/2,size,size);
+        }
+      }
     }
     if(moving)for(let i=ripples.length-1;i>=0;i--)if(ripples[i].radius>=ripples[i].limit)ripples.splice(i,1);
     averageRenderCost=averageRenderCost*.9+(Date.now()-renderStart)*.1;
@@ -239,12 +257,12 @@
   });
   addEventListener('scroll',()=>{if(visible){updateProgress();schedule();}},{passive:true});
   addEventListener('resize',resize,{passive:true});
-  document.addEventListener('visibilitychange',()=>{lastFrame=0;schedule();});
+  document.addEventListener('visibilitychange',()=>{lastFrame=0;if(document.hidden)section.style?.setProperty('--enchanted-play','paused');schedule();});
   // A paused scene also needs repainting when its palette changes.
   document.querySelector('#theme-toggle')?.addEventListener('click',schedule);
   reduced.addEventListener('change',()=>{toggle.hidden=reduced.matches;updateProgress();schedule();});
   toggle.hidden=reduced.matches;
-  if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible){updateProgress();schedule();}else if(frame!==null){cancelAnimationFrame(frame);frame=null;lastFrame=0;}}).observe(section);else visible=true;
+  if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible){updateProgress();schedule();}else{section.style?.setProperty('--enchanted-play','paused');if(frame!==null){cancelAnimationFrame(frame);frame=null;lastFrame=0;}}}).observe(section);else visible=true;
   section.classList.add('butterfly-story');
   document.fonts?.ready.then(()=>{sampleTitle();schedule();});
   resize();

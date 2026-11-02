@@ -1,0 +1,7 @@
+Tool: built-in image_gen (not CLI). Original generated illustration.
+Use case: stylized-concept. Production website background illustration, landscape 16:9.
+An original enchanted fairy forest clearing painted with rich watercolor and gouache textures, cinematic layered animation background atmosphere. Massive moss-covered twisting trees and ferns frame both edges and arch overhead; detailed bluebell and foxglove blossoms; tiny glowing pink and warm gold flowers at the bottom corners; tangled roots; a moonlit jade pond in the distance; dusty lavender haze; golden fireflies. Lush maximalist storybook garden, emerald teal, midnight blue, dusty rose pink, moss green and golden pollen. Foreground leaves, middle-ground roots and distant atmospheric trees. Central 55% stays a calm misty dark teal clearing, low detail, for interactive butterflies and text. No existing film characters, butterflies, lettering, UI or frame. Atmospheric botanical painting, not plastic neon fantasy.
+
+Research / direction (not source pixels):
+https://www.ghibli.jp/works/mononoke/
+https://www.arborealinteractive.com/

@@ -1,0 +1,53 @@
+/* A painted garden joins the paper scrapbook to the luminous forest. */
+.hero::after { content:''; position:absolute; pointer-events:none; z-index:-1; inset:20% 0 0; background:url('../assets/icons/botanical-vine.svg') left bottom/330px auto no-repeat; opacity:.55; }
+.hero-memory { position:absolute; top:5%; width:155px; padding:7px 7px 10px; background:#fff8ed; color:#342b31; box-shadow:3px 10px 22px #0002; z-index:1; }
+.hero-memory::before,.about-keepsakes figure::before { content:''; position:absolute; top:-10px; left:35%; width:65px; height:22px; background:#e7b6c9a6; rotate:-6deg; }
+.hero-memory img { width:100%; height:110px; display:block; object-fit:cover; }
+.hero-memory .handwritten { display:block; font-size:22px; text-align:center; line-height:1; margin-top:8px; }
+.memory-sky { left:5%; rotate:-12deg; }.memory-flower { right:3%; top:9%; rotate:10deg; }
+.hero .note-left { padding-top:180px; }.hero .note-right { padding-top:210px; }
+.ticker { position:relative; z-index:2; rotate:-1deg; box-shadow:0 4px 16px #0001; }
+.about,.universe,.art { position:relative; isolation:isolate; }
+.about,.art { overflow:clip; }
+.about::before,.universe::before,.art::before { content:''; position:absolute; pointer-events:none; z-index:-1; width:380px; height:580px; background:url('../assets/icons/botanical-vine.svg') center/contain no-repeat; opacity:.35; }
+.about::before { right:-50px; top:20px; transform:scaleX(-1); }.universe::before { left:-100px; bottom:-80px; }.art::before { right:-80px; bottom:0; transform:scaleX(-1); }
+.about-keepsakes { display:flex; align-items:center; padding:25px 0 5px 14px; max-width:440px; }
+.about-keepsakes figure { position:relative; background:#fff8ed; color:#342b31; padding:7px; margin:0; width:55%; rotate:-8deg; box-shadow:0 8px 22px #0002; }
+.about-keepsakes figure+figure { margin-left:-15px; rotate:8deg; width:42%; }
+.about-keepsakes img { display:block; width:100%; height:145px; object-fit:cover; object-position:50% 42%; }
+.about-keepsakes figcaption { display:block; font-size:23px; letter-spacing:0; text-align:center; margin:8px 0 0; }
+.about-copy { position:relative; padding:24px 30px; background:#ffffff46; border:1px solid var(--line); border-radius:45% 45% 4px 4px/3% 3% 4px 4px; box-shadow:8px 10px 0 #d7b6bc22; }
+.daydream .daydream-stage { isolation:isolate; overflow:hidden; color:#f5f2de; background:#102a30; --enchanted-play:paused; }
+.enchanted-scenery { position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
+.forest-painting,.forest-foreground,.forest-vignette,.forest-mist { position:absolute; inset:0; }
+.forest-painting { background:url('../assets/images/enchanted-forest.webp') center/cover no-repeat; transform:translateY(calc(-1 * var(--forest-shift,0px))) scale(var(--forest-scale,1.08)); }
+.forest-foreground { background:url('../assets/images/enchanted-forest.webp') center/cover no-repeat; mask-image:linear-gradient(transparent 65%,#000 95%); transform:scale(1.12) translateY(var(--forest-shift,0px)); }
+.forest-vignette { background:linear-gradient(#091b2c5c,transparent 22%,transparent 76%,#071c29ba),radial-gradient(ellipse at 50% 45%,transparent 22%,#081b2b50 85%); }
+.forest-mist { inset:20% -20% 0; opacity:.32; background:radial-gradient(ellipse at 35% 80%,#c1e0d646,transparent 45%),radial-gradient(ellipse at 75% 60%,#eabddd36,transparent 35%); animation:enchanted-mist 17s ease-in-out infinite alternate; animation-play-state:var(--enchanted-play); }
+.mist-front { inset:45% -30% -10%; opacity:.4; animation-duration:23s; animation-direction:alternate-reverse; }
+.daydream .daydream-meta,.daydream .daydream-bottom { color:#e2e8d7; }
+.daydream .daydream-meta { padding:10px 16px; background:#0a252763; border:1px solid #d8e9c828; border-radius:40px; }
+.daydream #motion-toggle { color:#eeeada; border-color:#e6ebd54d; }
+.daydream .daydream-copy h2 { color:#fff9e9; text-shadow:0 2px 20px #082027,0 0 45px #082027; }
+.daydream .daydream-copy h2 em { color:#ffcbe9; text-shadow:0 0 20px #f898d268; }
+.daydream .daydream-copy p { color:#e1ebdd; text-shadow:0 1px 8px #071c29; }
+.daydream .daydream-copy>.handwritten { color:#f8d0e4; text-shadow:0 1px 8px #071c29; }
+.daydream .particle-caption { color:#e6efd9; text-shadow:0 1px 6px #081f21; }
+.daydream .daydream-progress { background:#f9ffcf35; }.daydream .daydream-progress span { background:#f6d6a3; }
+.universe .curiosity-rail { background:#ffffff28; box-shadow:0 12px 35px #422f4310; border-radius:14px; }
+.journey { position:relative; isolation:isolate; }.journey::before { content:''; position:absolute; z-index:-1; inset:0; opacity:.16; background:url('../assets/icons/botanical-vine.svg') right bottom/450px auto no-repeat; }
+.contact { position:relative; isolation:isolate; }.contact::before { content:''; position:absolute; inset:0; z-index:-1; opacity:.17; background:url('../assets/images/enchanted-forest.webp') center 65%/cover; }
+[data-theme="dark"] .hero-memory,[data-theme="dark"] .about-keepsakes figure { background:#382b37; color:#f0e3ea; }
+[data-theme="dark"] .about-copy { background:#302832a8; box-shadow:8px 10px 0 #e9b6cf0c; }
+[data-theme="dark"] .universe .curiosity-rail { background:#19181d55; }
+[data-theme="dark"] :is(.about,.universe,.art)::before { opacity:.22; }
+@keyframes enchanted-mist { to { transform:translate3d(7%,-3%,0) scale(1.04); } }
+@media(max-width:1000px) { .hero-memory { width:120px; }.hero-memory img { height:90px; }.hero-memory .handwritten { font-size:19px; }.memory-sky { left:0; }.memory-flower { right:0; }.about-copy { padding:20px; } }
+@media(max-width:700px) {
+ .hero-memory { display:none; }.hero .note-left { padding-top:0; }.hero .note-right { padding-top:25px; }.hero::after { background-size:190px; opacity:.3; }
+ .about-keepsakes { max-width:340px; padding-top:10px; }.about-keepsakes img { height:125px; }.about-keepsakes figcaption { font-size:21px; }.about-grid { gap:30px; }.about-copy { padding:22px; }
+ .daydream .daydream-meta { padding:9px 12px; }.daydream .daydream-meta .section-label { font-size:6px; }.daydream #motion-toggle { font-size:8px; }
+ .forest-painting,.forest-foreground { background-position:53% center; }.forest-foreground { transform:scale(1.06); }.forest-mist { opacity:.2; }
+ .about::before,.universe::before,.art::before { width:240px; opacity:.22; }
+}
+@media(prefers-reduced-motion:reduce) { .forest-mist { animation:none; }.forest-painting,.forest-foreground { transform:none; } }
