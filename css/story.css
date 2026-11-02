@@ -29,12 +29,15 @@
 .story-inserting .story-slot,.story-joined .story-slot { opacity:1; }
 .story-joined .story-mosaic { filter:blur(0); opacity:.96; }
 .story-joined .story-wash { opacity:.12; }
-.story-completion { position:absolute; z-index:4; bottom:35px; left:50%; transform:translateX(-50%); text-align:center; padding:18px 25px; width:max-content; max-width:90%; background:#17312ce8; color:#fff2db; border:1px solid #dbd2af66; border-radius:14px; }
-.story-completion[hidden] { display:none; }.story-completion p { font-size:30px; margin:0 0 13px; }
+.story-holds-piece .story-strip { animation-play-state:paused; }
+.story-lane-group img.story-guest-card { object-fit:contain; background:#fffaec; box-shadow:0 6px 15px #0003; }
+.story-slot { display:none; }
+.story-completion { position:absolute; z-index:4; bottom:22px; left:50%; transform:translateX(-50%); text-align:center; padding:14px 22px; width:max-content; max-width:90%; background:#17312ce8; color:#fff2db; border:1px solid #dbd2af38; border-radius:6px; }
+.story-completion[hidden] { display:none; }.story-completion p { font-size:24px; margin:0 0 10px; }
 .story-completion button { background:#f3c8df; color:#30232b; padding:10px 17px; border-radius:25px; font-size:11px; }
 .story-completion a { display:block; width:fit-content; margin:14px auto 0; font-size:11px; text-decoration:underline; }
 .story-completion a[hidden] { display:none; }
-.story-flying-piece { position:fixed; left:0; top:0; z-index:120; transform-origin:top left; pointer-events:none; object-fit:contain; background:#fffcf6; border:2px solid #ebd4a3; box-shadow:0 0 35px #ffe6b56b,0 18px 50px #0005; }
+.story-flying-piece { position:fixed; left:0; top:0; z-index:120; transform-origin:top left; pointer-events:none; object-fit:contain; background:#fffaec; padding:7px 7px 19px; box-shadow:0 6px 15px #0003; }
 .story-bottom { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-top:18px; }
 .story-bottom p { margin:0; font-family:var(--hand); font-size:25px; line-height:1.2; }
 .story-bottom button { flex-shrink:0; font-size:10px; background:none; padding:8px 0; border-bottom:1px solid var(--line); }

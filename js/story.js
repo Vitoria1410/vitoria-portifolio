@@ -8,6 +8,7 @@
  const save=document.querySelector('#save-drawing'),drawing=document.querySelector('#drawing-canvas'),download=document.querySelector('#download-drawing');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)'),key='vitoria-story-pieces-v1';
  let records=[],paused=false,visible=false,busy=false,current='',animation=null,flying=null;
+ let landingCard=null,landingSource='',heldLane=null;
  const valid=(url,limit=1500000)=>typeof url==='string'&&/^data:image\/(png|webp);base64,/.test(url)&&url.length<limit;
  try{const value=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(value))records=value.filter(url=>valid(url)).slice(-6)}catch{}
  const shown=new Set([...memories,...records]);
@@ -24,8 +25,30 @@
   column.append(strip);mosaic.append(column);
  }
  function sync(){section.classList.toggle('story-moving',visible&&!paused&&!reduced.matches&&!document.hidden&&!busy)}
+ function releaseCard(){
+  if(landingCard){landingCard.src=landingSource;landingCard.classList.remove('story-guest-card');}
+  heldLane?.classList.remove('story-holds-piece');landingCard=null;heldLane=null;
+ }
+ function reserveCard(){
+  if(landingCard)return landingCard;
+  const bounds=stage.getBoundingClientRect(),cx=bounds.left+bounds.width*.5,cy=bounds.top+bounds.height*.43;
+  let best=Infinity;
+  for(const card of mosaic.querySelectorAll('.story-lane-group img')){
+   const rect=card.getBoundingClientRect();
+   if(!rect.width||!rect.height)continue;
+   const distance=Math.hypot(rect.left+rect.width/2-cx,rect.top+rect.height/2-cy);
+   if(distance<best){best=distance;landingCard=card;}
+  }
+  if(!landingCard)return slot;
+  landingSource=landingCard.src;
+  heldLane=landingCard.closest('.story-lane');heldLane?.classList.add('story-holds-piece');
+  landingCard.classList.add('story-guest-card');
+  landingCard.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+  return landingCard;
+ }
  function joined(url,saved){
   current=url;piece.src=url;piece.hidden=false;label.hidden=true;
+  reserveCard().src=url;
   stage.classList.remove('story-inserting');stage.classList.add('story-joined');
   station.inert=true;completion.hidden=false;
   note.textContent=saved?'Seu traço se encaixou na minha história. Ele ficou guardado neste navegador.':'Seu traço se encaixou nesta visita. Baixe uma cópia para guardar.';
@@ -40,17 +63,20 @@
   const url=await compact(event.detail.url);let saved=false;
   records=[...records,url].slice(-6);
   try{localStorage.setItem(key,JSON.stringify(records));saved=true}catch{}
-  const from=drawing.getBoundingClientRect(),to=slot.getBoundingClientRect();
+  const from=drawing.getBoundingClientRect(),to=reserveCard().getBoundingClientRect();
   station.inert=true;stage.classList.add('story-inserting');
   try{
    if(!reduced.matches&&from.width>0&&to.width>0){
     flying=document.createElement('img');flying.className='story-flying-piece';flying.alt='';flying.src=url;flying.setAttribute('aria-hidden','true');
     flying.style.width=`${from.width}px`;flying.style.height=`${from.height}px`;document.body.append(flying);
-    const sx=to.width/from.width,sy=to.height/from.height;
+    const targetWidth=landingCard?.offsetWidth?landingCard.offsetWidth*1.06:to.width;
+    const targetHeight=landingCard?.offsetHeight?landingCard.offsetHeight*1.06:to.height;
+    const sx=targetWidth/from.width,sy=targetHeight/from.height;
+    const targetTop=to.top-Math.min(0,Math.sin(-8*Math.PI/180)*targetWidth);
     if(flying.animate){animation=flying.animate([
      {transform:`translate(${from.left}px,${from.top}px) scale(1,1)`,borderRadius:'3px'},
      {transform:`translate(${to.left-25}px,${to.top-60}px) scale(${sx*1.1},${sy*1.1}) rotate(-7deg)`,offset:.65,borderRadius:'15px'},
-     {transform:`translate(${to.left}px,${to.top}px) scale(${sx},${sy}) rotate(0deg)`,borderRadius:'12px'}
+     {transform:`translate(${to.left}px,${targetTop}px) rotate(-8deg) scale(${sx},${sy})`,borderRadius:'0px'}
     ],{duration:1200,easing:'cubic-bezier(.22,.65,.25,1)',fill:'forwards'});await animation.finished;}
    }
   }catch{/* If resizing cancels the flight, the piece still lands in its slot. */}
@@ -62,6 +88,7 @@
  stage.querySelector('#story-draw-again').addEventListener('click',()=>{
   if(busy)return;
   if(current&&!shown.has(current)){groups.forEach(group=>group.append(photo(current)));shown.add(current)}
+  releaseCard();
   stage.classList.remove('story-joined');completion.hidden=true;piece.hidden=true;label.hidden=false;
   station.inert=false;save.disabled=false;document.querySelector('#clear-drawing').click();
   note.textContent='Uma peça nova, outra história. Pode começar de novo.';
