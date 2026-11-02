@@ -19,4 +19,4 @@
 @keyframes intro-breathe { from { opacity:.2; scale:.95; } to { opacity:1; scale:1.05; } }
 @keyframes garden-arrive { from { opacity:0; translate:0 16px; } to { opacity:1; translate:0 0; } }
 @media(max-width:500px) { .intro-title em { display:block; }.intro-title { font-size:43px; } }
-@media(prefers-reduced-motion:reduce) { .intro-pending :is(.header,main,footer,.skip) { visibility:visible; }.intro-pending .garden-intro { display:none; }.intro-pending { overflow:auto; } }
+@media(prefers-reduced-motion:reduce) { .garden-intro *,.garden-reveal .garden-intro { animation:none; }.intro-pending .garden-intro { display:flex; } }

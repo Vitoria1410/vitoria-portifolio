@@ -33,7 +33,8 @@
   let width = 1, height = 1, frame = null, visible = false, paused = false;
   let progress = 0, lastFrame = 0, clock = 0;
   let frameInterval=16,averageRenderCost=0;
-  const pointer = { x: -1000, y: -1000 };
+  const pointer = { x: -1000, y: -1000, vx:0, vy:0 };
+  const wake=[];
   const ripples = [];
   let seed = 2107;
   function random() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
@@ -103,17 +104,6 @@
     g.addColorStop(0,color);g.addColorStop(.2,color);g.addColorStop(.5,color+'88');g.addColorStop(1,color+'00');
     c.fillStyle=g;c.fillRect(0,0,24,24);return tile;
   });
-  // Bake the highlight into reusable sprites: one draw per particle, even
-  // during interaction, instead of several overlapping glow layers.
-  const litSprites=sprites.map((sprite,index)=>{
-    const tile=document.createElement('canvas');tile.width=tile.height=24;
-    const c=tile.getContext('2d'),halo=c.createRadialGradient(12,12,0,12,12,12);
-    halo.addColorStop(0,'#ffffff');halo.addColorStop(.12,'#fff4fc');
-    halo.addColorStop(.3,'#ff9cdbe6');halo.addColorStop(.6,'#ff64bd66');halo.addColorStop(1,'#ff64bd00');
-    c.fillStyle=halo;c.fillRect(0,0,24,24);
-    c.drawImage(sprite,6,6,12,12);
-    return tile;
-  });
   function updateProgress() {
     const rect = section.getBoundingClientRect();
     progress = reduced.matches ? 1 : clamp(-rect.top / Math.max(1,section.offsetHeight-innerHeight));
@@ -143,6 +133,10 @@
     const titleRect=title.getBoundingClientRect(),canvasRect=canvas.getBoundingClientRect();
     const morph=smooth(clamp((progress-.2)/.44));
     const textFade=1-smooth(clamp((progress-.72)/.16));
+    if(moving){
+      pointer.vx*=Math.pow(.84,dt);pointer.vy*=Math.pow(.84,dt);
+      while(wake.length&&clock-wake[0].born>.5)wake.shift();
+    }
     // Advance a wavefront once per frame; each particle receives one impulse
     // as the ring reaches it, rather than being pushed on every frame.
     if(moving)for(const wave of ripples){wave.previous=wave.radius;wave.radius=Math.min(wave.limit,(clock-wave.born)*380);}
@@ -177,24 +171,30 @@
             const wx=x+p.bx-wave.x,wy=y+p.by-wave.y,distance=Math.hypot(wx,wy);
             if(!wave.hits.has(p.index)&&distance>wave.previous&&distance<=wave.radius&&distance<wave.limit){
               wave.hits.add(p.index);
-              const strength=(6+3*Math.sin(p.phase)**2)*(1-distance/wave.limit);
+              const strength=(5+3*Math.sin(p.phase)**2)*(1-distance/wave.limit);
               const angle=Math.atan2(wy,wx)+Math.sin(p.phase)*.35;
               p.bvx+=Math.cos(angle)*strength;p.bvy+=Math.sin(angle)*strength;
-              p.glow=.65;
+              p.glow=1;
             }
           }
           // A softer spring gives the fragments time to drift before reforming.
           p.bvx=(p.bvx-p.bx*.018*dt)*Math.pow(.86,dt);
           p.bvy=(p.bvy-p.by*.018*dt)*Math.pow(.86,dt);
           p.bx+=p.bvx*dt;p.by+=p.bvy*dt;p.glow*=Math.pow(.96,dt);
-          const dx=x-pointer.x,dy=y-pointer.y,d=Math.hypot(dx,dy),influence=clamp(1-d/100);
-          const push=Math.pow(influence,1.8)*(9+(Math.sin(p.phase)+1)*5);
-          const angle=Math.atan2(dy,dx)+Math.sin(p.phase)*influence*.75;
-          const tx=Math.cos(angle)*push,ty=Math.sin(angle)*push;
+          const dx=x-pointer.x,dy=y-pointer.y,d=Math.hypot(dx,dy);
+          let influence=clamp(1-d/105);
+          for(const point of wake){
+            const wx=x-point.x,wy=y-point.y,age=clamp(1-(clock-point.born)/.5);
+            if(wx*wx+wy*wy<8100)influence=Math.max(influence,clamp(1-Math.hypot(wx,wy)/90)*age*.85);
+          }
+          // A local current bends the surface; it does not carve a hole in it.
+          const wave=Math.sin(d*.055-clock*5+p.phase*.25);
+          const tx=influence*(wave*8+Math.cos(p.phase)*3+pointer.vx*.18);
+          const ty=influence*(Math.cos(d*.045-clock*4+p.phase*.25)*7+pointer.vy*.18);
           p.vx=(p.vx+(tx-p.dx)*.12*dt)*Math.pow(.74,dt);
           p.vy=(p.vy+(ty-p.dy)*.12*dt)*Math.pow(.74,dt);
           p.dx+=p.vx*dt;p.dy+=p.vy*dt;
-          p.energy+=(influence-p.energy)*(influence>p.energy?.32:.08)*dt;
+          p.energy+=(influence-p.energy)*(influence>p.energy?.4:.055)*dt;
         }
         x+=p.dx+p.bx;y+=p.dy+p.by;
         const energy=Math.max(p.energy,p.glow);
@@ -204,13 +204,13 @@
         const tint=p.eye||p.tint<.15?2:p.edge?0:1;
         const radius=(p.size+(p.edge?.35:0))*Math.max(.8,b.size)*perspective*(1+energy*.25);
         context.globalAlpha=alpha;
-        const diameter=radius*(6+energy*6);
-        context.drawImage((energy>.18?litSprites:sprites)[tint+(dark?0:3)],x-diameter/2,y-diameter/2,diameter,diameter);
+        const diameter=radius*(6+energy*2);
+        context.drawImage(energy>.18?sprites[0]:sprites[tint+(dark?0:3)],x-diameter/2,y-diameter/2,diameter,diameter);
         if(energy>.08&&fade>.01){
           context.globalCompositeOperation=dark?'lighter':'source-over';
-          const halo=radius*(10+energy*9);
-          context.globalAlpha=energy*.3*fade;
-          context.drawImage(sprites[1],x-halo/2,y-halo/2,halo,halo);
+          const halo=radius*(8+energy*5);
+          context.globalAlpha=energy*.2*fade;
+          context.drawImage(sprites[0],x-halo/2,y-halo/2,halo,halo);
           context.globalAlpha=Math.min(1,energy*1.3)*fade;
           context.drawImage(sprites[0],x-radius*2,y-radius*2,radius*4,radius*4);
           context.globalCompositeOperation='source-over';
@@ -246,8 +246,15 @@
   function schedule(){if(frame===null&&visible&&!document.hidden)frame=requestAnimationFrame(render);}
   function resize(){const rect=canvas.getBoundingClientRect();width=Math.max(1,rect.width);height=Math.max(1,rect.height);const dpr=Math.min(devicePixelRatio||1,mobile.matches?1.25:1.5);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);context.setTransform(dpr,0,0,dpr,0,0);updateProgress();sampleTitle();schedule();}
   toggle.addEventListener('click',()=>{paused=!paused;toggle.setAttribute('aria-pressed',String(paused));toggle.textContent=paused?'retomar movimento ▷':'pausar movimento ⏸';schedule();});
-  canvas.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=canvas.getBoundingClientRect();pointer.x=e.clientX-r.left;pointer.y=e.clientY-r.top;});
-  canvas.addEventListener('pointerleave',()=>{pointer.x=pointer.y=-1000;});
+  canvas.addEventListener('pointermove',e=>{
+    if(e.pointerType!=='mouse'||paused||reduced.matches)return;
+    const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    pointer.vx=pointer.x>-999?Math.max(-35,Math.min(35,x-pointer.x)):0;
+    pointer.vy=pointer.y>-999?Math.max(-35,Math.min(35,y-pointer.y)):0;
+    pointer.x=x;pointer.y=y;
+    wake.push({x,y,born:clock});if(wake.length>5)wake.shift();
+  });
+  canvas.addEventListener('pointerleave',()=>{pointer.x=pointer.y=-1000;pointer.vx=pointer.vy=0;});
   canvas.addEventListener('pointerdown',e=>{
     if(paused||reduced.matches||(e.pointerType==='mouse'&&e.button!==0))return;
     const r=canvas.getBoundingClientRect();
