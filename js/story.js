@@ -6,18 +6,19 @@
  const slot=stage.querySelector('.story-piece-shape'),piece=stage.querySelector('#story-guest-piece'),label=stage.querySelector('.story-slot-label');
  const completion=stage.querySelector('.story-completion'),note=section.querySelector('#story-note'),privacy=section.querySelector('.story-privacy');
  const save=document.querySelector('#save-drawing'),drawing=document.querySelector('#drawing-canvas'),download=document.querySelector('#download-drawing');
- const reduced=matchMedia('(prefers-reduced-motion: reduce)'),key='vitoria-story-pieces-v1';
- let records=[],paused=false,visible=false,busy=false,current='',animation=null,flying=null;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ let paused=false,visible=false,busy=false,current='',animation=null,flying=null,visitRevision=0;
+ const visitPhotos=[];
  let landingCard=null,landingSource='',heldLane=null;
  const valid=(url,limit=1500000)=>typeof url==='string'&&/^data:image\/(png|webp);base64,/.test(url)&&url.length<limit;
- try{const value=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(value))records=value.filter(url=>valid(url)).slice(-6)}catch{}
- const shown=new Set([...memories,...records]);
+ try{localStorage.removeItem('vitoria-story-pieces-v1')}catch{}
+ const shown=new Set(memories);
  const groups=[];
  function photo(url){const img=document.createElement('img');img.src=url;img.alt='';img.loading='lazy';img.decoding='async';img.width=240;img.height=180;return img;}
  for(let lane=0;lane<4;lane++){
   const column=document.createElement('div');column.className='story-lane';
   const strip=document.createElement('div');strip.className='story-strip';
-  const urls=[...memories,...records].filter((_,i)=>i%4===lane);
+  const urls=memories.filter((_,i)=>i%4===lane);
   for(let repeat=0;repeat<2;repeat++){
    const group=document.createElement('div');group.className='story-lane-group';
    urls.forEach(url=>group.append(photo(url)));strip.append(group);if(lane===0)groups.push(group);
@@ -46,13 +47,13 @@
   landingCard.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
   return landingCard;
  }
- function joined(url,saved){
+ function joined(url){
   current=url;piece.src=url;piece.hidden=false;label.hidden=true;
   reserveCard().src=url;
   stage.classList.remove('story-inserting');stage.classList.add('story-joined');
   station.inert=true;completion.hidden=false;
-  note.textContent=saved?'Seu traço se encaixou na minha história. Ele ficou guardado neste navegador.':'Seu traço se encaixou nesta visita. Baixe uma cópia para guardar.';
-  privacy.textContent=saved?'Salvo apenas neste navegador; não é um mural público. Você também pode baixar sua peça.':'O navegador não permitiu guardar a peça. Use o botão de baixar para levar seu desenho.';
+  note.textContent='Seu traço se encaixou nesta visita. Baixe uma cópia para guardar.';
+  privacy.textContent='Ao reabrir o site, tudo começa de novo para a próxima pessoa. Seu desenho pode ser baixado.';
  }
  function compact(url){return new Promise(resolve=>{
   const img=new Image();img.onload=()=>{try{const c=document.createElement('canvas');c.width=420;c.height=Math.round(420*img.naturalHeight/img.naturalWidth);const ctx=c.getContext('2d');ctx.fillStyle='#fffcf6';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/webp',.85))}catch{resolve(url)}};img.onerror=()=>resolve(url);img.src=url;
@@ -60,9 +61,8 @@
  async function confirm(event){
   if(busy||!valid(event.detail?.url,6000000))return;
   busy=true;save.disabled=true;sync();
-  const url=await compact(event.detail.url);let saved=false;
-  records=[...records,url].slice(-6);
-  try{localStorage.setItem(key,JSON.stringify(records));saved=true}catch{}
+  const revision=visitRevision,url=await compact(event.detail.url);
+  if(revision!==visitRevision)return;
   const from=drawing.getBoundingClientRect(),to=reserveCard().getBoundingClientRect();
   station.inert=true;stage.classList.add('story-inserting');
   try{
@@ -81,13 +81,14 @@
    }
   }catch{/* If resizing cancels the flight, the piece still lands in its slot. */}
   finally{
-   flying?.remove();flying=null;animation=null;joined(url,saved);busy=false;sync();
+   flying?.remove();flying=null;animation=null;
+   if(revision===visitRevision){joined(url);busy=false;sync();}
   }
  }
  document.addEventListener('drawing-confirmed',confirm);
  stage.querySelector('#story-draw-again').addEventListener('click',()=>{
   if(busy)return;
-  if(current&&!shown.has(current)){groups.forEach(group=>group.append(photo(current)));shown.add(current)}
+  if(current&&!shown.has(current)){groups.forEach(group=>{const image=photo(current);group.append(image);visitPhotos.push(image)});shown.add(current)}
   releaseCard();
   stage.classList.remove('story-joined');completion.hidden=true;piece.hidden=true;label.hidden=false;
   station.inert=false;save.disabled=false;document.querySelector('#clear-drawing').click();
@@ -101,5 +102,16 @@
  addEventListener('resize',()=>animation?.cancel(),{passive:true});
  if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{threshold:.05}).observe(stage);
  else{visible=true;sync()}
- if(records.length){const last=records[records.length-1];joined(last,true);download.href=last;download.download=last.startsWith('data:image/webp')?'meu-traco.webp':'meu-traco.png';download.hidden=false;save.disabled=true}
+ addEventListener('pageshow',event=>{
+  if(!event.persisted)return;
+  visitRevision++;animation?.cancel();animation=null;flying?.remove();flying=null;
+  releaseCard();visitPhotos.splice(0).forEach(image=>image.remove());
+  shown.clear();memories.forEach(url=>shown.add(url));
+  busy=false;current='';paused=false;
+  stage.classList.remove('story-joined');stage.classList.remove('story-inserting');
+  completion.hidden=true;piece.hidden=true;piece.removeAttribute('src');label.hidden=false;
+  station.inert=false;save.disabled=false;download.hidden=true;download.removeAttribute('href');
+  toggle.setAttribute('aria-pressed','false');toggle.textContent='pausar lembranças ⏸';
+  note.textContent='Uma nova visita, uma nova peça. Que tal deixar seu traço?';sync();
+ });
 })();

@@ -1,0 +1,9 @@
+.scroll-hint { position:fixed; z-index:35; bottom:max(18px,env(safe-area-inset-bottom)); left:50%; transform:translate(-50%,5px); display:flex; align-items:center; gap:12px; padding:8px 14px; border:1px solid #b8a77b66; border-radius:30px; background:#f5f0e6ed; color:#514c3d; box-shadow:0 3px 15px #00000012; font-family:var(--sans); font-size:10px; letter-spacing:.3px; pointer-events:none; opacity:0; visibility:hidden; transition:opacity .4s ease,transform .4s ease,visibility .4s; white-space:nowrap; }
+.scroll-hint.is-visible { opacity:1; visibility:visible; transform:translate(-50%,0); }
+.scroll-hint-arrow { display:inline-block; color:#a97891; font-size:17px; line-height:1; animation:scroll-hint-nudge 2.4s ease-in-out infinite; }
+[data-theme="dark"] .scroll-hint { background:#172b28ed; color:#eee5d2; border-color:#dac18c55; }
+[data-theme="dark"] .scroll-hint-arrow { color:#ebc1d7; }
+.intro-pending .scroll-hint,.photo-open .scroll-hint { opacity:0; visibility:hidden; }
+@keyframes scroll-hint-nudge { 50% { transform:translateY(3px); } }
+@media(max-width:700px) { .scroll-hint { font-size:9px; padding:7px 12px; bottom:max(12px,env(safe-area-inset-bottom)); } }
+@media(prefers-reduced-motion:reduce) { .scroll-hint { transition:none; }.scroll-hint-arrow { animation:none; } }

@@ -134,7 +134,7 @@ document.querySelector('#clear-drawing').addEventListener('click', () => {
   context.clearRect(0, 0, drawing.width, drawing.height);
   hasDrawing = false;
   download.hidden = true;
-  try { localStorage.removeItem('vitoria-guest-drawing'); } catch { /* Storage may be disabled. */ }
+  download.removeAttribute('href');
   status.textContent = 'Uma página em branco. Pode começar de novo.';
 });
 document.querySelector('#save-drawing').addEventListener('click', () => {
@@ -148,21 +148,14 @@ document.querySelector('#save-drawing').addEventListener('click', () => {
   outputContext.drawImage(drawing, 0, 0);
   download.href = output.toDataURL('image/png');
   download.hidden = false;
-  let savedLocally=false;
-  try {
-    localStorage.setItem('vitoria-guest-drawing', drawing.toDataURL('image/png'));
-    savedLocally=true;
-    status.textContent = 'Seu traço ficou guardado neste navegador. Você também pode baixar a imagem ao lado.';
-  } catch {
-    status.textContent = 'Este navegador não permitiu salvar. Use “baixar meu desenho” para guardar a imagem.';
-  }
-  document.dispatchEvent(new CustomEvent('drawing-confirmed',{detail:{url:download.href,savedLocally}}));
+  status.textContent = 'Seu desenho faz parte desta visita. Baixe uma cópia para guardar.';
+  document.dispatchEvent(new CustomEvent('drawing-confirmed',{detail:{url:download.href}}));
 });
-try {
-  const saved = localStorage.getItem('vitoria-guest-drawing');
-  if (saved && saved.startsWith('data:image/png;base64,')) {
-    const restored = new Image();
-    restored.onload = () => { context.drawImage(restored, 0, 0); hasDrawing = true; status.textContent = 'Seu último desenho continua aqui, guardado neste navegador.'; };
-    restored.src = saved;
+// Each page opening starts with a blank sheet, including browser back/forward cache.
+try { localStorage.removeItem('vitoria-guest-drawing'); } catch {}
+addEventListener('pageshow',event=>{
+  if(event.persisted){
+    document.querySelector('#clear-drawing').click();
+    status.textContent='Uma nova visita, uma folha em branco. Pode começar.';
   }
-} catch { /* Drawing remains available when browser storage is disabled. */ }
+});
