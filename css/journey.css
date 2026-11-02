@@ -1,0 +1,37 @@
+.journey.section { padding-block:65px; }
+.journey>.section-label { margin-bottom:28px; }
+.path-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:9%; }
+.path-origin h2 { font-size:clamp(43px,4.7vw,70px); letter-spacing:-3px; }
+.path-origin>p { color:#cccfc1; font-size:13px; max-width:370px; line-height:1.9; }
+.path-origin .path-lead { font-family:var(--serif); color:#f4efdc; font-size:21px; line-height:1.5; margin:24px 0 16px; }
+.path-places { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:35px; }
+.path-places figure { margin:0; padding:7px; background:#f5efdd; color:#313d32; transform:rotate(-3deg); align-self:start; box-shadow:0 7px 20px #0003; }
+.path-places figure:nth-child(2) { transform:rotate(4deg); margin-top:24px; }
+.elotec-mark { display:grid; place-items:center; height:150px; padding:15px; background:#263c32; }
+.elotec-mark img { display:block; width:100%; height:auto; }
+.fecap-place { display:block; width:100%; height:150px; object-fit:cover; object-position:50% 35%; }
+.path-places figcaption { display:block; text-align:center; letter-spacing:0; margin:8px 0 3px; }
+.path-places figcaption .handwritten { display:block; font-size:23px; color:#554d3e; }
+.path-places figcaption a { display:block; font-size:8px; margin-top:5px; }
+.path-timeline { border-left:1px solid #c4c8ab55; padding-left:27px; }
+.path-timeline article { position:relative; padding-bottom:24px; }
+.path-timeline article:last-child { padding-bottom:0; }
+.path-timeline article::before { content:''; position:absolute; width:8px; height:8px; left:-32px; top:5px; border-radius:50%; background:#d7b389; box-shadow:0 0 10px #d4b66a33; }
+.path-date { font-size:8px; letter-spacing:1.4px; color:#d6c4a6; }
+.path-timeline h3 { font-family:var(--serif); font-size:23px; line-height:1.25; font-weight:500; margin:8px 0 10px; }
+.path-timeline p { color:#d1cec3; font-size:12px; line-height:1.85; margin-bottom:10px; }
+.path-hours { display:flex; gap:25px; margin:15px 0; }
+.path-hours>span { font-size:13px; color:#eee5cd; }
+.path-hours small { display:block; font-size:9px; color:#bfc2b1; }
+.path-timeline details { font-size:11px; }
+.path-timeline summary { width:fit-content; cursor:pointer; color:#e9c1d5; list-style:none; border-bottom:1px solid #ead5dc55; padding:3px 0; }
+.path-timeline summary::-webkit-details-marker { display:none; }
+.path-timeline summary span { display:inline-block; margin-left:8px; }
+.path-timeline details[open] summary span { rotate:45deg; }
+.path-timeline details p { font-size:11px; margin-top:12px; }
+.path-timeline .path-turn { display:block; font-size:26px; color:#e8bdd2; margin-top:7px; }
+.path-goal { display:inline-block; color:#e9c1d5; font-size:10px; padding:6px 11px; border:1px solid #e9c1d54d; border-radius:30px; }
+.journey .path-value { font-size:25px; color:#d5ddc1; margin:30px 0 0; max-width:700px; line-height:1.2; }
+@media(max-width:700px) {
+ .journey.section { padding-block:45px; }.path-grid { grid-template-columns:1fr; gap:35px; }.path-origin h2 { font-size:47px; }.path-origin>p { max-width:none; }.path-places { max-width:370px; margin-top:20px; }.elotec-mark,.fecap-place { height:115px; }.path-places figcaption .handwritten { font-size:21px; }.path-timeline { padding-left:23px; }.path-timeline article::before { left:-28px; }.path-timeline h3 { font-size:22px; }.journey .path-value { font-size:24px; }
+}

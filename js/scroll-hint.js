@@ -14,12 +14,14 @@
     text.textContent=rect&&rect.top<=0&&rect.bottom>innerHeight&&!mural.classList.contains('mural-static')?'continue descendo para explorar':'role para continuar';
     hint.classList.add('is-visible');
   }
-  function arm(delay=2600){hide();timer=setTimeout(show,delay);}
-  addEventListener('scroll',()=>arm(),{passive:true});
+  function arm(delay=0){hide();timer=setTimeout(show,delay);}
+  addEventListener('scroll',()=>arm(80),{passive:true});
   addEventListener('resize',()=>arm(),{passive:true});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)hide();else arm(1200);});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)hide();else arm();});
   document.addEventListener('pointerdown',event=>{if(event.target.closest('canvas,input,textarea,button')){editing=true;hide();}},{passive:true});
   document.addEventListener('pointerup',()=>{editing=false;arm();},{passive:true});
   document.addEventListener('pointercancel',()=>{editing=false;arm();},{passive:true});
-  arm(1600);
+  // The intro may finish after the first check. Reveal the cue at that moment.
+  new MutationObserver(()=>arm()).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+  arm();
 })();

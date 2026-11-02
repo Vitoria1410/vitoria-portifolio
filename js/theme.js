@@ -1,11 +1,8 @@
 'use strict';
 (() => {
   const root = document.documentElement;
-  const system = matchMedia('(prefers-color-scheme: dark)');
-  let saved = null;
-  try { saved = localStorage.getItem('vitoria-theme'); } catch { /* Use the system preference if storage is unavailable. */ }
-  if (saved !== 'dark' && saved !== 'light') saved = null;
-  let theme = saved || (system.matches ? 'dark' : 'light');
+  // Every opening begins in light mode; the visitor can switch during the visit.
+  let theme = 'light';
   let button = null;
   function apply() {
     root.dataset.theme = theme;
@@ -24,13 +21,11 @@
     button.hidden = false;
     button.addEventListener('click', () => {
       theme = theme === 'dark' ? 'light' : 'dark';
-      saved = theme;
-      try { localStorage.setItem('vitoria-theme', theme); } catch { /* Theme still works for this visit. */ }
       apply();
     });
     apply();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
   else initialize();
-  system.addEventListener('change', event => { if (!saved) { theme = event.matches ? 'dark' : 'light'; apply(); } });
+  addEventListener('pageshow',event=>{if(event.persisted){theme='light';apply();}});
 })();
