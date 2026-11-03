@@ -5,11 +5,11 @@
 .garden-intro { position:fixed; inset:0; z-index:100; flex-direction:column; justify-content:center; align-items:center; text-align:center; overflow:hidden; color:#f4ecdc; background:#102426; padding:25px; }
 .intro-glow { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 48%,#accaa425,transparent 50%),radial-gradient(ellipse at 30% 70%,#eccba019,transparent 40%); animation:intro-breathe 2.5s ease-in-out both; }
 .intro-moon { font-family:Georgia,serif; font-size:63px; color:#f4dca3; line-height:1; text-shadow:0 0 22px #edc88080; animation:intro-arrive 1s ease both; }
-.intro-eyebrow { font-size:8px; letter-spacing:3px; margin:25px 0 17px; color:#ccd2bc; }
+.intro-eyebrow { font-size:11px; letter-spacing:3px; margin:25px 0 17px; color:#ccd2bc; }
 .intro-title { position:relative; font-family:var(--serif); font-size:clamp(37px,6vw,75px); line-height:1.1; letter-spacing:-2px; margin:0; animation:intro-arrive 1s .15s ease both; }
 .intro-title em { font-family:var(--hand); font-size:1.3em; color:#ecc7db; }
 .intro-signature { font-family:var(--hand); font-size:25px; margin:17px 0 38px; color:#dddfc7; }
-#skip-entrance { position:relative; background:none; border:1px solid #dcc79b55; border-radius:30px; color:#f2e6d2; padding:9px 20px; font-size:10px; }
+#skip-entrance { position:relative; background:none; border:1px solid #dcc79b55; border-radius:30px; color:#f2e6d2; padding:9px 20px; font-size:11px; }
 .garden-reveal .hero h1 { animation:garden-arrive .95s cubic-bezier(.2,.7,.3,1) both; }
 .garden-reveal .hero-stage { animation:garden-arrive 1.1s .12s cubic-bezier(.2,.7,.3,1) both; }
 .garden-reveal .hero-meta,.garden-reveal .header { animation:garden-arrive .8s ease both; }

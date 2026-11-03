@@ -46,7 +46,7 @@
 @media(max-width:700px) {
  .hero-memory { display:none; }.hero .note-left { padding-top:0; }.hero .note-right { padding-top:25px; }.hero::after { background-size:190px; opacity:.3; }
  .about-keepsakes { max-width:340px; padding-top:10px; }.about-keepsakes img { height:125px; }.about-keepsakes figcaption { font-size:21px; }.about-grid { gap:30px; }.about-copy { padding:22px; }
- .daydream .daydream-meta { padding:9px 12px; }.daydream .daydream-meta .section-label { font-size:6px; }.daydream #motion-toggle { font-size:8px; }
+ .daydream .daydream-meta { padding:9px 12px; }.daydream .daydream-meta .section-label { font-size:11px; }.daydream #motion-toggle { font-size:11px; }
  .forest-painting,.forest-foreground { background-position:53% center; }.forest-foreground { transform:scale(1.06); }.forest-mist { opacity:.2; }
  .about::before,.universe::before,.art::before { width:240px; opacity:.22; }
 }

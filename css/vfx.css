@@ -1,0 +1,121 @@
+/* ==========================================================================
+   vfx.css — camada de efeitos (carregada depois de polish.css)
+   Tudo é aprimoramento progressivo: sem JavaScript ou com movimento reduzido,
+   o conteúdo aparece completo e parado.
+   ========================================================================== */
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- Barra de progresso da página ---------- */
+.scroll-progress {
+  position: fixed; inset: 0 0 auto 0; z-index: 60; height: 3px;
+  pointer-events: none; background: transparent;
+}
+.scroll-progress i {
+  display: block; height: 100%; transform-origin: 0 50%;
+  transform: scaleX(var(--progress, 0));
+  background: linear-gradient(90deg, var(--pink), #c4d8e6 60%, #f4dca3);
+}
+.intro-pending .scroll-progress { display: none; }
+
+/* ---------- Texto que acende palavra por palavra ao rolar ---------- */
+.wl .w { opacity: .24; transition: opacity .45s ease; }
+.wl .w.on { opacity: 1; }
+
+/* ---------- Números do portfólio (odômetro) ---------- */
+.numbers { margin-top: 90px; padding-top: 34px; border-top: 1px solid var(--line); }
+.numbers .section-label { margin-bottom: 0; }
+.numbers dl {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px; margin: 30px 0 0;
+}
+.stat {
+  display: flex; flex-direction: column-reverse; gap: 12px;
+  padding-left: 20px; border-left: 1px solid var(--line);
+}
+.stat dt { font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); }
+.stat dd {
+  margin: 0; font-family: var(--serif); font-weight: 500; line-height: 1;
+  font-size: clamp(48px, 8vw, 104px);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
+.odo { display: inline-flex; }
+.odo-digit { display: block; height: 1.12em; overflow: hidden; }
+.odo-col {
+  display: flex; flex-direction: column;
+  transform: translateY(calc(var(--n, 0) * -1.12em));
+  transition: transform 1.7s cubic-bezier(.16, .8, .2, 1) var(--d, 0ms);
+}
+.odo-col span { display: block; height: 1.12em; line-height: 1.12; }
+@media (max-width: 700px) {
+  .numbers { margin-top: 60px; }
+  .numbers dl { gap: 12px; }
+  .stat { padding-left: 12px; }
+  .stat dt { font-size: 11px; letter-spacing: 1.1px; }
+}
+
+/* ---------- Bolhas de luz (bokeh) na seção escura ---------- */
+.journey { position: relative; isolation: isolate; overflow: clip; }
+.journey > :not(.orbs) { position: relative; z-index: 1; }
+.orbs { position: absolute; inset: 0; z-index: 0; overflow: clip; pointer-events: none; }
+.orb {
+  position: absolute; left: var(--x); top: var(--y);
+  width: var(--s); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgb(var(--c) / .5), rgb(var(--c) / .14) 52%, transparent 70%);
+  box-shadow: inset 0 0 0 1px rgb(var(--c) / .16);
+  filter: blur(var(--b, 5px));
+  animation: orb-float var(--t) ease-in-out var(--d) infinite alternate;
+}
+@keyframes orb-float {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: .55; }
+  to   { transform: translate3d(var(--dx), var(--dy), 0) scale(1.18); opacity: 1; }
+}
+
+/* ---------- Cartões do caminho: elevação suave ao passar o mouse ---------- */
+@media (hover: hover) {
+  .journey-list article { transition: transform .4s cubic-bezier(.2, .7, .3, 1), border-color .3s ease; }
+  .journey-list article > span { transition: color .3s ease; }
+  .journey-list article:hover { transform: translateX(10px); border-top-color: var(--pink); }
+  .journey-list article:hover > span { color: var(--pink); }
+}
+
+/* ---------- Indicador de seções (só em telas largas) ---------- */
+.hud {
+  position: fixed; right: 22px; top: 50%; z-index: 45;
+  display: none; flex-direction: column; gap: 4px;
+  transform: translateY(-50%); opacity: 0; pointer-events: none;
+  transition: opacity .4s ease;
+}
+.hud.is-on { opacity: 1; pointer-events: auto; }
+.intro-pending .hud, body.photo-open .hud { display: none !important; }
+@media (min-width: 1100px) { .hud { display: flex; } }
+.hud a {
+  position: relative; display: flex; align-items: center; justify-content: flex-end;
+  gap: 10px; min-height: 26px; padding: 0 2px; font-size: 12px; letter-spacing: .4px;
+}
+.hud a span {
+  padding: 4px 10px; border-radius: 20px; background: var(--paper); color: var(--ink);
+  box-shadow: 0 0 0 1px var(--line); opacity: 0; translate: 6px 0;
+  transition: opacity .25s ease, translate .25s ease; white-space: nowrap;
+}
+.hud a::after {
+  content: ''; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--paper); box-shadow: 0 0 0 1px var(--ink);
+  transition: background-color .25s ease, transform .25s ease;
+}
+.hud a:is(:hover, :focus-visible) span, .hud a[aria-current] span { opacity: 1; translate: 0 0; }
+.hud a[aria-current]::after { background: var(--pink); transform: scale(1.35); }
+.hud a:hover::after { transform: scale(1.35); }
+
+/* ---------- Movimento reduzido: tudo aparece completo e parado ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .wl .w { opacity: 1; transition: none; }
+  .odo-col { transition: none; }
+  .orb { animation: none; opacity: .7; }
+  .journey-list article:hover { transform: none; }
+  .hud, .hud a span, .hud a::after { transition: none; }
+}

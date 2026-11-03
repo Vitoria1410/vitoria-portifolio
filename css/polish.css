@@ -1,0 +1,184 @@
+/* ==========================================================================
+   polish.css — camada de acabamento (carregada por último)
+   Mantém a identidade do site (papel, Playfair, Caveat, DM Sans). Aqui ficam:
+   contraste, hero, navegação, alvos de toque e estados de interação.
+   ========================================================================== */
+
+:root {
+  --muted: #5f5e57;   /* antes #77766e (4,08:1). Agora 5,8:1 sobre o papel. */
+  --focus: #477798;
+}
+[data-theme="dark"] { --focus: #eeb2d0; }
+
+/* ---------- Foco visível e seleção ---------- */
+:is(a, button, input, [tabindex="0"]):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+::selection { background: var(--pink); color: #252521; }
+
+/* ---------- Cabeçalho: fixo, some ao rolar para baixo e volta ao subir ---------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin: 0;
+  padding: 0 5%;
+  border-bottom: 0;
+  background: var(--paper);
+  transition: transform .35s ease, box-shadow .3s ease;
+}
+.header::after {            /* a linha fina de antes, mantida nas margens de 5% */
+  content: '';
+  position: absolute;
+  left: 5%; right: 5%; bottom: 0;
+  border-bottom: 1px solid var(--line);
+  transition: opacity .3s ease;
+}
+.header.is-stuck { box-shadow: 0 8px 24px rgb(0 0 0 / .08); }
+.header.is-stuck::after { opacity: 0; }
+.header.is-hidden:not(:focus-within) { transform: translateY(-100%); }
+
+.header nav a { padding: 6px 0; }
+.header nav a[aria-current]::after { right: 0; background: var(--pink); }
+
+/* "contato" como botão de ação rápida */
+.header nav .nav-cta {
+  padding: 9px 20px;
+  border: 1px solid var(--ink);
+  border-radius: 30px;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+.header nav .nav-cta::after { display: none; }
+.header nav .nav-cta:hover,
+.header nav .nav-cta[aria-current] { background: var(--ink); color: var(--paper); }
+.header nav .nav-cta:active { transform: scale(.97); }
+
+.theme-toggle { min-height: 40px; transition: background-color .2s ease, color .2s ease; }
+.menu-toggle { min-height: 44px; padding: 0 4px; }
+
+/* O menu recolhido passa a valer até 900px: os 7 itens não cabem em tablets */
+@media (max-width: 900px) {
+  .header { height: 76px; }
+  .signature { font-size: 34px; }
+  .menu-toggle { display: block; font-size: 13px; }
+  .header nav {
+    display: none;
+    position: absolute;
+    top: 75px; right: 0; left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 18px 5% 24px;
+    font-size: 17px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 18px 30px rgb(0 0 0 / .08);
+  }
+  .header nav.open { display: flex; }
+  .header nav a { width: 100%; padding: 12px 0; }
+  .header nav a::after { display: none; }
+  .header nav a[aria-current] { color: var(--ink); font-weight: 700; }
+  .header nav .nav-cta { width: auto; margin-top: 10px; padding: 12px 24px; }
+}
+
+/* ---------- Hero: quem sou e qual é a proposta, logo de cara ---------- */
+.hero-meta {
+  align-items: baseline;
+  gap: 8px 24px;
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  color: var(--ink);
+}
+.hero-name { font-weight: 700; }
+.hero-role { text-align: right; }
+
+.hero .margin-note p { font-size: 14px; line-height: 1.7; color: #3e3d38; }
+.hero .margin-note .hero-about { margin-top: 0; font-size: 15px; color: var(--ink); }
+[data-theme="dark"] .hero .margin-note .hero-about { color: #f4ecdc; }
+
+.hero-bottom { align-items: flex-end; gap: 24px 32px; flex-wrap: wrap; }
+.hero-bottom > .hero-tagline {
+  max-width: none;
+  font-size: 12px;
+  line-height: 1.9;
+  letter-spacing: 1.4px;
+  color: var(--ink);
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-bottom .hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  letter-spacing: .2px;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.hero-bottom .solid-button { box-shadow: 0 6px 16px rgb(37 37 33 / .18); }
+.hero-bottom .solid-button:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgb(37 37 33 / .22); }
+.ghost-button {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--paper) 55%, transparent);
+  backdrop-filter: blur(6px);
+}
+.ghost-button:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+.hero-bottom .hero-actions a:active { transform: translateY(0) scale(.98); }
+[data-theme="dark"] .ghost-button { border-color: #f4ecdc; color: #f4ecdc; }
+[data-theme="dark"] .ghost-button:hover { background: #f4ecdc; color: #17171a; }
+
+@media (max-width: 700px) {
+  .hero-meta { flex-direction: column; gap: 4px; font-size: 11px; }
+  .hero-meta > span:last-child { display: block; }   /* o curso aparece também no celular */
+  .hero-role { text-align: left; letter-spacing: 1.2px; }
+  .hero-bottom { flex-direction: column; align-items: stretch; text-align: center; }
+  .hero-actions { justify-content: center; }
+  .hero-bottom .hero-actions a { flex: 1 1 150px; justify-content: center; }
+}
+
+/* ---------- Botões e estados de interação ---------- */
+.solid-button, .text-button, .ghost-button {
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.solid-button { min-height: 44px; }
+.solid-button:hover { background: #3a3a34; }
+[data-theme="dark"] .solid-button:hover { background: #f6c5de; }
+.solid-button:active { transform: scale(.98); }
+.text-button { padding-block: 8px; }
+.text-button:hover { border-bottom-color: var(--ink); }
+
+/* ---------- Alvos de toque confortáveis ---------- */
+.swatch { width: 32px; height: 32px; }
+.swatches { gap: 10px; }
+.line-navigation button { width: 44px; height: 44px; }
+.copy-contact { min-height: 40px; }
+
+/* ---------- Contato: links reais de e-mail e telefone ---------- */
+a.contact-value { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 5px; transition: text-decoration-color .2s ease; }
+a.contact-value:hover { text-decoration-color: currentColor; }
+
+/* ---------- Legendas do ateliê com mais hierarquia ---------- */
+.line-art figcaption small { display: block; color: var(--muted); }
+.line-art figcaption .handwritten { font-size: 24px; line-height: 1.1; }
+
+/* ---------- Ajustes finos de layout ---------- */
+/* A faixa girada do ticker passava ~1px da tela e criava rolagem horizontal.
+   (overflow-x: clip no body é tratado como "auto" pelo navegador; no html funciona.) */
+html { overflow-x: hidden; }
+/* Legenda do retrato quebra com elegância quando o texto cresce no celular */
+.portrait-wrap figcaption { flex-wrap: wrap; gap: 6px 14px; }
+/* No tablet a coluna lateral é estreita: o bilhete manuscrito reduz um pouco */
+@media (min-width: 701px) and (max-width: 1000px) {
+  .note-right .handwritten { font-size: 22px; }
+}
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .header, .header::after { transition: none; }
+  .header.is-hidden:not(:focus-within) { transform: none; }
+  .hero-bottom .solid-button:hover, .ghost-button:hover, .solid-button:active,
+  .hero-bottom .hero-actions a:active, .header nav .nav-cta:active { transform: none; }
+}
