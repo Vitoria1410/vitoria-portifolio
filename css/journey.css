@@ -31,7 +31,28 @@
 .path-timeline details p { font-size:11px; margin-top:12px; }
 .path-timeline .path-turn { display:block; font-size:26px; color:#e8bdd2; margin-top:7px; }
 .path-goal { display:inline-block; color:#e9c1d5; font-size:10px; padding:6px 11px; border:1px solid #e9c1d54d; border-radius:30px; }
+.path-gamejam { margin-top:4px; }
+.gamejam-scroll { display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; padding:8px 4px 16px; margin:14px 0 6px; scrollbar-width:thin; scrollbar-color:#d7b38955 transparent; -webkit-overflow-scrolling:touch; }
+.gamejam-scroll::-webkit-scrollbar { height:6px; }
+.gamejam-scroll::-webkit-scrollbar-track { background:transparent; }
+.gamejam-scroll::-webkit-scrollbar-thumb { background:#d7b38966; border-radius:6px; }
+.gamejam-card { flex:0 0 230px; scroll-snap-align:start; margin:0; padding:8px; background:#f5efdd; color:#313d32; border-radius:4px; box-shadow:0 6px 18px #00000044; display:flex; flex-direction:column; transition:transform .25s ease; }
+.gamejam-card:hover { transform:translateY(-4px); }
+.gamejam-photo { width:100%; height:170px; overflow:hidden; background:#1b221d; border-radius:2px; }
+.gamejam-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.gamejam-card figcaption { padding:8px 4px 2px; text-align:center; }
+.gamejam-card figcaption .handwritten { display:block; font-size:20px; color:#443c2f; line-height:1.2; }
+.gamejam-card figcaption small { display:block; font-size:9px; color:#7a7568; margin-top:3px; letter-spacing:.5px; }
+.gamejam-badge-card { flex:0 0 240px; background:#212924; color:#eee9db; border:1px solid #415147; padding:16px; display:flex; flex-direction:column; justify-content:space-between; }
+.gamejam-badge-card .gamejam-tag { display:inline-block; font-size:8px; letter-spacing:1.5px; color:#e9c1d5; background:#e9c1d51a; padding:3px 8px; border-radius:12px; margin-bottom:8px; width:fit-content; }
+.gamejam-badge-card h4 { font-family:var(--serif); font-size:21px; color:#f7eed7; margin:0 0 8px; font-weight:600; line-height:1.2; }
+.gamejam-badge-card p { font-size:11px; color:#c5c9bc; line-height:1.6; margin:0 0 10px; }
+.gamejam-pills { display:flex; flex-wrap:wrap; gap:5px; }
+.gamejam-pills span { font-size:8px; padding:3px 7px; border:1px solid #c4c8ab44; border-radius:15px; color:#d8dec8; background:#ffffff0d; }
+.gamejam-note { font-size:19px; color:#d7b389; text-align:right; margin-top:8px; display:block; }
+.gamejam-scroll-hint { display:flex; justify-content:flex-end; font-size:10px; color:#a4a896; margin-top:2px; }
 .journey .path-value { font-size:25px; color:#d5ddc1; margin:30px 0 0; max-width:700px; line-height:1.2; }
 @media(max-width:700px) {
  .journey.section { padding-block:45px; }.path-grid { grid-template-columns:1fr; gap:35px; }.path-origin h2 { font-size:47px; }.path-origin>p { max-width:none; }.path-places { max-width:370px; margin-top:20px; }.elotec-mark,.fecap-place { height:115px; }.path-places figcaption .handwritten { font-size:21px; }.path-timeline { padding-left:23px; }.path-timeline article::before { left:-28px; }.path-timeline h3 { font-size:22px; }.journey .path-value { font-size:24px; }
+ .gamejam-card { flex:0 0 200px; padding:6px; }.gamejam-photo { height:150px; }.gamejam-badge-card { flex:0 0 215px; padding:13px; }
 }

@@ -3,7 +3,7 @@
 (() => {
   // Progressive enhancement: content remains visible when JS is unavailable.
   if ('IntersectionObserver' in window) {
-    const elements = document.querySelectorAll('.about h2, .about-copy, .section-heading, .scrap, .little-things, .journey-grid > div, .puzzle-note, .contact-link');
+    const elements = document.querySelectorAll('.about h2, .about-copy, .section-heading, .path-origin, .path-timeline article, .contact-heading, .contact-details, .drawing-station');
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
