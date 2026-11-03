@@ -2,12 +2,17 @@
 .journey>.section-label { margin-bottom:24px; }
 
 /* Tabs de Navegação da Seção 02 */
-.journey-tab-nav { display:flex; gap:12px; margin-bottom:38px; flex-wrap:wrap; border-bottom:1px solid #c4c8ab2d; padding-bottom:16px; }
-.journey-tab-btn { background:transparent; color:#c0c3b2; border:1px solid #c4c8ab44; padding:10px 20px; border-radius:30px; font-family:var(--sans); font-size:13px; cursor:pointer; display:inline-flex; align-items:center; gap:9px; transition:all .25s ease; }
-.journey-tab-btn span { font-size:10px; letter-spacing:1.2px; opacity:.75; }
-.journey-tab-btn:hover { background:#ffffff10; color:#f4efdc; border-color:#d7b38988; }
-.journey-tab-btn.is-active { background:#f5efdd; color:#212924; border-color:#f5efdd; font-weight:600; box-shadow:0 4px 16px #0000003b; }
-.journey-tab-btn.is-active span { opacity:1; color:#7d6b47; font-weight:700; }
+.journey-tab-nav { display:flex; gap:14px; margin-bottom:40px; flex-wrap:wrap; border-bottom:1px solid #c4c8ab2d; padding-bottom:18px; }
+.journey-tab-btn { background:transparent; color:#c0c3b2; border:1px solid #c4c8ab44; padding:12px 24px; border-radius:30px; font-family:var(--sans); font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:10px; transition:all .25s cubic-bezier(.2,.7,.3,1); }
+.journey-tab-btn span { font-size:11px; letter-spacing:1.2px; opacity:.75; font-weight:700; }
+.journey-tab-btn:hover { background:#ffffff14; color:#f4efdc; border-color:#d7b389aa; transform:translateY(-2px); }
+.journey-tab-btn.is-active { background:#f5efdd; color:#212924; border-color:#f5efdd; font-weight:600; box-shadow:0 6px 20px #0000004d; transform:translateY(-1px); }
+.journey-tab-btn.is-active span { opacity:1; color:#7d6b47; font-weight:800; }
+
+/* Destaque especial na aba da Game Jam */
+#tab-gamejam { border:1.5px solid #d7b38988; background:#d7b38914; color:#f5eedc; }
+#tab-gamejam:hover { background:#d7b3892a; border-color:#d7b389; }
+#tab-gamejam.is-active { background:linear-gradient(135deg, #f5efdd, #eadebe); color:#212924; border-color:#d7b389; box-shadow:0 6px 24px #d7b3893b; }
 
 .journey-panel { animation:journeyPanelIn .35s ease; }
 .journey-panel[hidden] { display:none; }
@@ -47,8 +52,34 @@
 .path-timeline details[open] summary span { rotate:45deg; }
 .path-timeline details p { font-size:11px; margin-top:12px; }
 .path-timeline .path-turn { display:block; font-size:26px; color:#e8bdd2; margin-top:7px; }
-.path-jump-btn { display:inline-flex; align-items:center; gap:6px; background:#d7b3891a; border:1px solid #d7b38966; color:#f4efdc; font-size:10px; padding:6px 14px; border-radius:20px; cursor:pointer; margin-top:8px; transition:all .2s ease; }
-.path-jump-btn:hover { background:#d7b38933; border-color:#d7b389aa; transform:translateX(3px); }
+.path-jump-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:linear-gradient(135deg, #d7b38933, #d7b38918);
+  border:1.5px solid #d7b389;
+  color:#fffbf2;
+  font-family:var(--sans);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.3px;
+  padding:12px 22px;
+  border-radius:30px;
+  cursor:pointer;
+  margin-top:14px;
+  box-shadow:0 4px 18px #d7b3892b;
+  transition:all .25s cubic-bezier(.2,.7,.3,1);
+}
+.path-jump-btn:hover {
+  background:linear-gradient(135deg, #d7b38955, #d7b38928);
+  border-color:#f8eed8;
+  color:#ffffff;
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 8px 25px #d7b38944;
+}
+.path-jump-btn:active {
+  transform:translateY(0) scale(.99);
+}
 .path-goal { display:inline-block; color:#e9c1d5; font-size:10px; padding:6px 11px; border:1px solid #e9c1d54d; border-radius:30px; }
 .journey .path-value { font-size:25px; color:#d5ddc1; margin:30px 0 0; max-width:700px; line-height:1.2; }
 
@@ -93,8 +124,9 @@
 
 @media(max-width:700px) {
   .journey.section { padding-block:45px; }
-  .journey-tab-nav { gap:8px; margin-bottom:25px; }
-  .journey-tab-btn { font-size:11px; padding:8px 14px; }
+  .journey-tab-nav { gap:10px; margin-bottom:28px; }
+  .journey-tab-btn { font-size:12px; padding:10px 18px; }
+  .path-jump-btn { font-size:12px; padding:11px 18px; width:100%; justify-content:center; }
   .path-grid { grid-template-columns:1fr; gap:35px; }
   .path-origin h2 { font-size:47px; }
   .path-origin>p { max-width:none; }
